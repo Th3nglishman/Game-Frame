@@ -14,11 +14,12 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private Rectangle playPong;
 	private Rectangle playTextBased;
 	private Container c;
+	private JFrame w;
 	private boolean clickedPong=false;
 	private boolean clickedTextBased=false;
 
 	public void run() {
-		JFrame w = new JFrame("Menu");
+		w = new JFrame("Menu");
 		w.setBounds(100, 100, 640, 480);
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -40,9 +41,14 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		playPong=new Rectangle(8*xUnit,8*yUnit,1*xUnit,1*yUnit);
 		playTextBased=new Rectangle(2*xUnit,4*yUnit,1*xUnit,1*yUnit);
 		if (clickedPong) {
-			
+			w.dispose();
+			Pong pong=new Pong ();
+			GameFrame.run(pong);
 		}
 		if (clickedTextBased) {
+			w.dispose();
+			TextBased settings=new TextBased ();
+			GameFrame.run(settings);
 		}
 		g.setColor(Color.GREEN);
 		g.fillRect(playPong.x, playPong.y, playPong.width, playPong.height);
