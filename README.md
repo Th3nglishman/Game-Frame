@@ -19,4 +19,5 @@ For class names, methods, and fields please see the UML diagram.
 
 
 Credits
+--------
 
