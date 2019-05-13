@@ -51,11 +51,25 @@ public class Pong extends GraphicsGame {
 			
 		}
 		right.setX(getWidth()-20);
+		
+		if (this.checkCollision()){
+//			pongBall.getLastState();
+		}
+		
+		
 		super.paintComponent(g);
+		
+		
+		
+		
 		left.draw(g,this);
 		right.draw(g,this);
 		pongBall.draw(g,this);
 
+	}
+
+	private boolean checkCollision() {
+		return false;
 	}
 
 	@Override
