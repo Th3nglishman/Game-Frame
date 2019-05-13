@@ -2,9 +2,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -19,6 +17,8 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private boolean clickedTextBased=false;
 
 	public void run() {
+		addMouseListener(this);
+		addMouseMotionListener(this);
 		w = new JFrame("Menu");
 		w.setBounds(100, 100, 640, 480);
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,13 +42,9 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		playTextBased=new Rectangle(2*xUnit,4*yUnit,1*xUnit,1*yUnit);
 		if (clickedPong) {
 			w.dispose();
-			Pong pong=new Pong ();
-			GameFrame.run(pong);
 		}
 		if (clickedTextBased) {
 			w.dispose();
-			TextBased settings=new TextBased ();
-			GameFrame.run(settings);
 		}
 		g.setColor(Color.GREEN);
 		g.fillRect(playPong.x, playPong.y, playPong.width, playPong.height);
@@ -99,13 +95,35 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		int x, y;
 
+		x = e.getX();
+		y = e.getY();
+
+		if (playPong.contains(x, y)) {
+			clickedPong = true;
+		}
+		if (playTextBased.contains(x, y)) {
+			clickedTextBased = true;
+		}
+
+		repaint();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		int x, y;
 
+		x = e.getX();
+		y = e.getY();
+
+		if (playPong.contains(x, y)) {
+			clickedPong = true;
+		}
+		if (playTextBased.contains(x, y)) {
+			clickedTextBased = true;
+		}
+
+		repaint();
 	}
 }

@@ -1,24 +1,48 @@
-import java.awt.Color;
 import java.awt.Container;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame {
-	private static final long serialVersionUID = 1L;
+	private static boolean MAX=Constants.MAX;
 	
-	public static void run(Game g) {
-		JFrame w = new JFrame(g.getName());
-		w.setBounds(100, 100, 640, 480);
+	private static final long serialVersionUID = 1L;
+	private int width;
+	private int height;
+	private JFrame w;
+	private Coordinates coords;
+	
+	public GameFrame( int xOff, int yOff, int x, int y) {
+		width = x;
+		height = y;
+		coords = new Coordinates(xOff, yOff);
+	}
+
+	public void run(GraphicsGame g) {
+		w = new JFrame(g.getName());
+		if (!MAX) {
+			w.setBounds(coords.getX(), coords.getY(), width, height);
+		}
+		else {
+			w.setBounds(0,0,0,0);
+			w.setSize(getMaximumSize());
+		}
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		Game game = g;
-		w.setBackground(Color.WHITE);
-
+		GraphicsGame game = g;
+		w.setBackground(g.getBackground());
+		w.addKeyListener(game);
 		Container c = w.getContentPane();
 		c.add(game);
-
 		w.setResizable(true);
 		w.setVisible(true);
-		w.setBounds(100, 100, g.getWidth(), g.getHeight());
+	}
+	
+	public void paint(Graphics g) {
+		w.setResizable(false);
+	}
+
+	public Coordinates getDimensions() {
+		Coordinates dimensions= new Coordinates(width,height);
+		return dimensions;
 	}
 }

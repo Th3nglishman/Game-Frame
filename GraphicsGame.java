@@ -1,10 +1,15 @@
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 
-public abstract class GraphicsGame extends Game {
+public abstract class GraphicsGame extends Game implements KeyListener {
 	private static final long serialVersionUID = 1L;
-	public abstract void paintComponet(Graphics g);
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
+
 	public abstract String getName();
-	public abstract void run();
-	public abstract int getWindowWidth();
-	public abstract int getWindowHeight();
+
+	public abstract Color getBackground();
 }

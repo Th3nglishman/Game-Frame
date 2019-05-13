@@ -11,7 +11,6 @@ public class TextBased extends Game {
 		return "Text Based";
 	}
 
-	@Override
 	public void run() {
 		System.out.println("\f");
 		System.out.println("Welcome to my GameFrame, why don't you stay awhile?");

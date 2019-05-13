@@ -1,6 +1,8 @@
 
 
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.ImageObserver;
 
 //Provides a convinient point of joining a hitbox and sprite
 public class Sprite extends SpriteBase {
