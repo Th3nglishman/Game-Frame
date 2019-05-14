@@ -17,7 +17,10 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private Rectangle playPong;
 	private Rectangle playTextBased;
 	private Container c;
+	private JFrame w;
+	private boolean releasedPong=false;
 	private boolean clickedPong=false;
+	private boolean releasedTextBased=false;
 	private boolean clickedTextBased=false;
 	
 	public Menu () {
@@ -26,7 +29,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void run() {
-		JFrame w = new JFrame("Menu");
+		w = new JFrame("Menu");
 		w.setBounds(100, 100, 640, 480);
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -45,14 +48,22 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		int xUnit=this.getWidth()/16;
 		int yUnit=this.getHeight()/16;
 		
-		playPong=new Rectangle(8*xUnit,8*yUnit,1*xUnit,1*yUnit);
-		playTextBased=new Rectangle(2*xUnit,4*yUnit,1*xUnit,1*yUnit);
+		playPong=new Rectangle((int)(7.5*xUnit),(int)(7.5*yUnit),1*xUnit,1*yUnit);
+		playTextBased=new Rectangle((int)(1.5*xUnit),(int)(4*yUnit),1*xUnit,1*yUnit);
 		
-		if (clickedPong) {
-			g.setColor(Color.RED);
+		if (releasedPong) {
+			clickedPong=false;
+			GameFrame gF = new GameFrame(100,100,640,480);
+			Coordinates windowSize=gF.getDimensions();
+			Pong game = new Pong(windowSize);
+			gF.run(game);
+//			g.setColor(Color.RED);
 		}
 		else {
-			g.setColor(Color.BLUE);
+			g.setColor(Color.GREEN);
+		}
+		if (clickedPong) {
+			g.setColor(Color.BLACK);
 		}
 			
 		
@@ -66,8 +77,19 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			g.setColor(Color.YELLOW);
 		}
 		
+		if (releasedTextBased) {
+			clickedTextBased=false;
+//			g.setColor(Color.GREEN);
+		}
+		else {
+			g.setColor(Color.RED);
+		}
 		
-		g.fillRect(playTextBased.x, playTextBased.y, playTextBased.width, playTextBased.height);
+		
+		g.fillRect(playTextBased.x, playTextBased.y, 0, 0);
+		
+		releasedPong=false;
+		releasedTextBased=false;
 		
 		repaint();
 	}
@@ -109,7 +131,9 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 		x = e.getX();
 		y = e.getY();
-		System.out.println("X = "+ x + "Y = "+ y);
+		if (Constants.TEST) {
+			System.out.println("X = "+ x + "Y = "+ y);
+		}
 
 		if (playPong.contains(x, y)) {
 			clickedPong = true;
@@ -130,12 +154,15 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 		x = e.getX();
 		y = e.getY();
-		System.out.println("X = "+ x + "Y = "+ y);
+		if (Constants.TEST) {
+			System.out.println("X = "+ x + "Y = "+ y);
+		}
+
 		if (playPong.contains(x, y)) {
-			clickedPong = false;
+			releasedPong = true;
 		}
 		if (playTextBased.contains(x, y)) {
-			clickedTextBased = false;
+			clickedTextBased = true;
 		}
 
 		repaint();

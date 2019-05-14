@@ -1,8 +1,7 @@
 
 public class Starter {
-	private static final boolean TEST = true;
 	public static void main(String[] args) {
-		if (!TEST) {
+		if (!(Constants.TEST)) {
 			Menu window = new Menu();
 			window.run();
 		}
