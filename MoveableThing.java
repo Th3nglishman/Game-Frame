@@ -15,6 +15,7 @@ public class MoveableThing extends Sprite {
 		super.setY(y);
 	}
 
+	// Draws this object
 	public void draw(Graphics g, ImageObserver io) {
 		g.drawImage(image, getX(), getY(), io);
 	}
