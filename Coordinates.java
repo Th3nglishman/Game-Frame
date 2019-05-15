@@ -2,7 +2,7 @@
 
 import java.awt.geom.AffineTransform;
 
-//Description: Stores x,y and useful operations on said coordinates
+//Stores x,y and useful operations on said coordinates
 public class Coordinates {
 	private int x, y;
 	private AffineTransform coordTransform;

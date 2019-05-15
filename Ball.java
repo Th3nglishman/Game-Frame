@@ -1,14 +1,10 @@
 import java.awt.Image;
 
-// Description: this class stores a ball to be printed and used in the game PONG
-
 public class Ball extends MoveableThing {
-	// Fields
 	private int angle;
 	private int speed;
 	private Ball lastBall;
 
-	// Constructors
 	public Ball(Image pic, int x, int y) {
 		super(pic, x, y);
 	}
@@ -22,8 +18,7 @@ public class Ball extends MoveableThing {
 	public void setAngle(int angle) {
 		this.angle = angle % 360;
 	}
-	
-	// Randomizes ball angle at the game start
+
 	public void play() {
 		int randomAngle = (int) (Math.random() * 180);
 		if (randomAngle < 45) {
@@ -40,7 +35,6 @@ public class Ball extends MoveableThing {
 		this.setAngle(randomAngle);
 	}
 
-	// This tests the play method which randomized ball angle at game start within parameters
 	public String playTest() {
 		String result = "";
 		for (int f = 0; f < 100; f++) {

@@ -8,8 +8,8 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 /*
-		 *usage of GameBoard.java authored by Mr.Taylor
-		 Description: Acts as a menu used to pick a game to play
+		 * from GameBoard.java authored by Mr.Taylor
+		 * 
 		 */
 public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
@@ -23,13 +23,11 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private boolean releasedTextBased=false;
 	private boolean clickedTextBased=false;
 	
-	// Constructor
 	public Menu () {
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
 
-	// Runs this menu
 	public void run() {
 		w = new JFrame("Menu");
 		w.setBounds(100, 100, 640, 480);
@@ -45,7 +43,6 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		w.setVisible(true);
 	}
 
-	// Draws the menu
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		int xUnit=this.getWidth()/16;
