@@ -3,6 +3,8 @@ import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
+// Description: Is an easel for a given game
+
 public class GameFrame extends JFrame {
 	private static boolean MAX=Constants.MAX;
 	
