@@ -1,7 +1,8 @@
 
 
-//Provides a System of Coordinates to create one Coordinate System link
+//Description: Provides a System of Coordinates to create one Coordinate System link
 public class CoordinateSystem {
+	// Fields
 	public static final double PI = Math.PI;
 
 	private Coordinates topLeft;
