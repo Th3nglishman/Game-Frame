@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.image.*;
 
+// Description: Is a super class for all movable objects (sprites)
+
 public class MoveableThing extends Sprite {
 
 	private Image image;
