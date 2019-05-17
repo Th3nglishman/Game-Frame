@@ -24,7 +24,7 @@ Credits
 -
 Elwin He - Graphics Guru
 -
-Krishan Patel - fix-it-man
+Krishan Patel - Fix-it-god
 -
 John Whitney - GAME (Game Artist Master Extraordinaire)
 -
