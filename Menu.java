@@ -7,10 +7,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-/*
-		 * from GameBoard.java authored by Mr.Taylor
-		 * 
-		 */
+//	From GameBoard.java authored by Mr.Taylor
+// 	Description: Acts as the main menu for all games
 public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 
