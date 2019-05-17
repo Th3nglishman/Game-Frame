@@ -22,4 +22,10 @@ For class names, methods, and fields please see the UML diagram.
 
 Credits
 -
+Elwin He - Graphics Guru
+-
+Krishan Patel - fix-it-man
+-
+John Whitney - GAME (Game Artist Moron Extraordinaire)
+-
 
