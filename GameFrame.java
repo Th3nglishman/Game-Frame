@@ -2,7 +2,7 @@ import java.awt.Container;
 import java.awt.Graphics;
 
 import javax.swing.JFrame;
-
+// Description: Is an easel for a given game
 public class GameFrame extends JFrame {
 	private static boolean MAX=Constants.MAX;
 	
@@ -11,13 +11,13 @@ public class GameFrame extends JFrame {
 	private int height;
 	private JFrame w;
 	private Coordinates coords;
-	
+	// Constructor
 	public GameFrame( int xOff, int yOff, int x, int y) {
 		width = x;
 		height = y;
 		coords = new Coordinates(xOff, yOff);
 	}
-
+	// Runs the easel with a given game as the content
 	public void run(GraphicsGame g) {
 		w = new JFrame(g.getName());
 		if (!MAX) {
@@ -40,7 +40,7 @@ public class GameFrame extends JFrame {
 	public void paint(Graphics g) {
 		w.setResizable(false);
 	}
-
+	// Returns the dimensions of the Window
 	public Coordinates getDimensions() {
 		Coordinates dimensions= new Coordinates(width,height);
 		return dimensions;
