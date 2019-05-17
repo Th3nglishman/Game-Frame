@@ -26,6 +26,6 @@ Elwin He - Graphics Guru
 -
 Krishan Patel - fix-it-man
 -
-John Whitney - GAME (Game Artist Moron Extraordinaire)
+John Whitney - GAME (Game Artist Master Extraordinaire)
 -
 
