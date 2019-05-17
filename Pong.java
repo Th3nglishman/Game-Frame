@@ -2,8 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
-
 import javax.swing.ImageIcon;
+
+// Description: Is a pong window thing
 
 public class Pong extends GraphicsGame {
 	private static final long serialVersionUID = 1L;
