@@ -42,6 +42,7 @@ TextBased: Is a textbased game like creation
 
 
 TOO LONG DIDN'T READ(TLDR)
+-
 -You can run the project to start it or run the starter method
 
 -You can change the constants class if you want to change settings 
