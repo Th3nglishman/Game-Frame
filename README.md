@@ -5,12 +5,6 @@ Game Frame: a frame for games
 This program was written by Elwin He, Krishan Patel, and John Whitney starting May 1.
 This program is a simple interface for playing and experimenting with classic games in a simplistic interface without neccesity of an emulator or other secondary system. Anyone interested in the beginning of video games made enjoy this program to play games such as pong. When using this program it is important to remember that controls will be shown at the start with the exeption of the main menu which operates on a click to select interface. 
 
-
-
-
-
-
-
 More description:
 -
 Our project Game-Frame includes our first prototype game PONG, with many other games still in development.
@@ -31,6 +25,16 @@ Pong: Is the graphics game PONG
 Sprite: Is the superclass of all sprites
 Starter: Contains the main method to run the program
 TextBased: Is a textbased game like creation
+
+
+
+TOO LONG DIDN'T READ(TLDR)
+-You can run the project to start it or run the starter method
+
+-You can change the constants class if you want to change settings 
+
+-This has multiple simple games in an easy interface for your enjoyment and study
+
 
 Credits
 ________
