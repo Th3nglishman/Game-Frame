@@ -24,6 +24,8 @@ public class Pong extends GraphicsGame implements ActionListener {
 	private Timer timer;
 	private int p1score=0;
 	private int p2score=0;
+	private boolean p1Win=false;
+	private boolean p2Win=false;
 	private boolean first=true;
 	private boolean moved=false;
 	private boolean gameStarted;
@@ -69,7 +71,13 @@ public class Pong extends GraphicsGame implements ActionListener {
 			moved=false;
 			gameStarted=false;
 			restart=false;
-			pongBall.setSpeed(10);
+			if (p1Win) {
+				p1score++;
+			}
+			if (p2Win) {
+				p2score++;
+			}
+			pongBall.setSpeed(5);
 		}
 		if (!moved) {
 			left.setY((this.getHeight()-left.getHeight())/2);
@@ -107,47 +115,6 @@ public class Pong extends GraphicsGame implements ActionListener {
 		paddleCollision=false;
 	}
 
-	// Checks the ball's collision
-	private void checkCollision() {
-		boolean looper=true;		
-		
-		BufferedImage pic = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-		Graphics g = pic.getGraphics();
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, pic.getWidth(), pic.getHeight());
-		left.draw(g, this);
-		right.draw(g, this);
-		
-		if (!((pongBall.getX()+pongBall.getWidth())<getWidth())) {
-			p2score++;
-			looper=false;
-			restart=true;
-		}
-		else if (!((pongBall.getY()+pongBall.getHeight())<getHeight())) {
-			bottomWallCollision=true;
-			looper=false;
-		}
-		else if (pongBall.getX()<0) {
-			p1score++;
-			looper=false;
-			restart=true;
-		}
-		else if (pongBall.getY()<0) {
-			topWallCollision=true;
-			looper=false;
-		}
-		if (looper) {
-			for (int i = pongBall.getX(); i < (pongBall.getX() + pongBall.getWidth()); i++) {
-				for (int j = pongBall.getY(); j < (pongBall.getY() + pongBall.getHeight()); j++) {
-					if (pic.getRGB(i, j) != Color.BLACK.getRGB()) {
-						paddleCollision = true;
-					}
-				}
-			}
-		}
-	}
-
-
 	// Checks if a key is pressed
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -166,7 +133,6 @@ public class Pong extends GraphicsGame implements ActionListener {
 			left.setY(left.getY() + 5);
 			moved=true;
 		}
-		repaint();
 	}
 
 	// Checks if a key is released
@@ -186,8 +152,51 @@ public class Pong extends GraphicsGame implements ActionListener {
 	}
 
 
+	// is called when the timer activates
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
+	}
+	
+	// Private methods
+	
+	// Checks the ball's collision
+	private void checkCollision() {
+		boolean looper=true;		
+		
+		BufferedImage pic = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics g = pic.getGraphics();
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, pic.getWidth(), pic.getHeight());
+		left.draw(g, this);
+		right.draw(g, this);
+		
+		if (!((pongBall.getX()+pongBall.getWidth())<getWidth())) {
+			p2Win=true;
+			looper=false;
+			restart=true;
+		}
+		else if (!((pongBall.getY()+pongBall.getHeight())<getHeight())) {
+			bottomWallCollision=true;
+			looper=false;
+		}
+		else if (pongBall.getX()<0) {
+			p1Win=true;
+			looper=false;
+			restart=true;
+		}
+		else if (pongBall.getY()<0) {
+			topWallCollision=true;
+			looper=false;
+		}
+		if (looper) {
+			for (int i = pongBall.getX(); i < (pongBall.getX() + pongBall.getWidth()); i++) {
+				for (int j = pongBall.getY(); j < (pongBall.getY() + pongBall.getHeight()); j++) {
+					if (pic.getRGB(i, j) != Color.BLACK.getRGB()) {
+						paddleCollision = true;
+					}
+				}
+			}
+		}
 	}
 }

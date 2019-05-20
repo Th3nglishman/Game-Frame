@@ -9,15 +9,20 @@ public class Ball extends MoveableSprite {
 	//	**Feilds**
 	private int angle;
 	private int speed;
+	private int speedPoint;
 	private Ball lastBall;
 	
 	
 	//	**Constructors**
 	public Ball(Image pic, int x, int y) {
 		super(pic, x, y);
-		speed=10;
+		speed=5;
 	}
-
+	
+	public Ball(Image pic, int x, int y, int width, int height) {
+		super(pic, x, y,width,height);
+		speed=5;
+	}
 	
 	//	**Methods**
 
@@ -93,9 +98,16 @@ public class Ball extends MoveableSprite {
 	public void setLastBall(Ball lastBall) {
 		this.lastBall = lastBall;
 	}
+	
 	// Moves this ball
 	public void moveBall() {
 		this.setX(getX()+speed);
+		System.out.println(speed);
+	}
+	
+	// Moves this ball 
+	public void moveBall(int movement) {
+		this.setX(getX()+movement);
 		System.out.println(speed);
 	}
 
@@ -106,11 +118,19 @@ public class Ball extends MoveableSprite {
 	
 	// Adds a speed
 	public void addSpeed() {
-		if (speed<0) {
+		if (speed<0&&speedPoint==4) {
 			speed-=1;
+			speedPoint=0;
+		}
+		else if (speedPoint==4) {
+			speed+=1;
+			speedPoint=0;
+		}
+		else if (4<speedPoint) {
+			speedPoint=4;
 		}
 		else {
-			speed+=1;
+			speedPoint++;
 		}
 	}
 }

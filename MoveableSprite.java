@@ -17,6 +17,13 @@ public class MoveableSprite extends Sprite {
 		super.setX(x);
 		super.setY(y);
 	}
+	
+	public MoveableSprite(Image img, int x, int y, int width, int height) {
+		super(img, x, y, width, height);
+		image = img;
+		super.setX(x);
+		super.setY(y);
+	}
 
 	
 	//	**Methods**
