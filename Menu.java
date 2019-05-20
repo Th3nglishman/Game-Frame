@@ -1,10 +1,15 @@
+import java.awt.AlphaComposite; //accounts for transparency
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 //	From GameBoard.java authored by Mr.Taylor
@@ -12,14 +17,29 @@ import javax.swing.JPanel;
 public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 
+	private Image play = new ImageIcon("src/PLAY.png").getImage();
+	private Image title = new ImageIcon("src/TitleFrame.png").getImage();
+	private Image greenButton = new ImageIcon("src/GreenButton.png").getImage();
+	private Image pressedButton = new ImageIcon("src/PressedButton.png").getImage();
+	private Image redButton = new ImageIcon("src/redButton.png").getImage();
+	private Image pressedRed = new ImageIcon("src/RedButtonPressed.png").getImage();
+	private Image gear = new ImageIcon("src/GEAR.png").getImage();
+	
 	private Rectangle playPong;
+	private Rectangle settings;
 	private Rectangle playTextBased;
+	private Rectangle playSettingsBased;
+
 	private Container c;
 	private JFrame w;
 	private boolean releasedPong=false;
 	private boolean clickedPong=false;
+	private boolean clickedSettings=false;
+	private boolean releasedSettings=false;
 	private boolean releasedTextBased=false;
 	private boolean clickedTextBased=false;
+	private boolean releasedSettingsBased=false;
+	private boolean clickedSettingsBased=false;
 	
 	public Menu () {
 		addMouseListener(this);
@@ -43,11 +63,40 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D)g;
+		
 		int xUnit=this.getWidth()/16;
 		int yUnit=this.getHeight()/16;
+		g.drawImage(greenButton,(int)(8*xUnit-100),(int)(7*yUnit + 20), this);
+		g.drawImage(redButton,(int)(8*xUnit-100),(int)(7*yUnit + 120), this);
 		
-		playPong=new Rectangle((int)(7.5*xUnit),(int)(7.5*yUnit),1*xUnit,1*yUnit);
-		playTextBased=new Rectangle((int)(1.5*xUnit),(int)(4*yUnit),1*xUnit,1*yUnit);
+		playPong=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+		playTextBased=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+		playSettingsBased=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+		settings=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 120),200, 70);
+		
+		g.drawImage(play,(int)(8*xUnit-100),(int)(7*yUnit+20), this);
+		g.drawImage(gear,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
+		g.drawImage(title,(int)(8*xUnit-323),(int)(7*yUnit-210), this);
+		
+		if (clickedSettings) {
+			g.drawImage(pressedRed,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
+			g.drawImage(gear,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
+		}
+		if (clickedSettingsBased) {
+			g.setColor(Color.GREEN);
+		}
+		else {
+			g.setColor(Color.YELLOW);
+		}
+		
+		if (releasedSettingsBased) {
+			clickedSettingsBased=false;
+//			g.setColor(Color.GREEN);
+		}
+		else {
+			g.setColor(Color.RED);
+		}
 		
 		if (releasedPong) {
 			clickedPong=false;
@@ -56,17 +105,20 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			Pong game = new Pong(windowSize);
 			gF.run(game);
 //			g.setColor(Color.RED);
+			releasedPong=false;
 		}
 		else {
 			g.setColor(Color.GREEN);
 		}
 		if (clickedPong) {
 			g.setColor(Color.BLACK);
+			g.drawImage(pressedButton,(int)(8*xUnit-100),(int)(7*yUnit+20), this);
+			g.drawImage(play,(int)(8*xUnit-100),(int)(7*yUnit+20), this);
+
 		}
 			
-		
-		
-		g.fillRect(playPong.x, playPong.y, playPong.width, playPong.height);
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f)); //makes the rectangle transparent
+	  	g2d.fillRect(playPong.x, playPong.y, playPong.width, playPong.height);
 		
 		if (clickedTextBased) {
 			g.setColor(Color.GREEN);
@@ -83,13 +135,30 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			g.setColor(Color.RED);
 		}
 		
+	  	g2d.fillRect(settings.x, settings.y, settings.width, settings.height);
+	  	
+		if (releasedSettings) {
+			clickedSettings=false;
+			System.out.println("test");
+		/*
+		 * Insert Settings window here <---
+		 */
+		}
+		else {
+			g.setColor(Color.GREEN);
+		}
 		
+	  	g2d.fillRect(settings.x, settings.y, settings.width, settings.height);
 		g.fillRect(playTextBased.x, playTextBased.y, 0, 0);
 		
-		releasedPong=false;
-		releasedTextBased=false;
+		releasedSettings=false;
+		releasedSettingsBased=false;
 		
 		repaint();
+		g.drawImage(play,(int)(8*xUnit-100),(int)(7*yUnit+20), this);
+		g.drawImage(gear,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
+
+
 	}
 
 	@Override
@@ -118,7 +187,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+			
 	}
 
 	@Override
@@ -138,6 +207,12 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		}
 		if (playTextBased.contains(x, y)) {
 			clickedTextBased = true;
+		}
+		if (settings.contains(x, y)) {
+			clickedSettings = true;
+		}
+		if (playSettingsBased.contains(x, y)) {
+			clickedSettingsBased = true;
 		}
 
 		repaint();
@@ -162,7 +237,18 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		if (playTextBased.contains(x, y)) {
 			clickedTextBased = true;
 		}
-
+		else  {
+				clickedPong = false;
+		}
+		if (settings.contains(x, y)) {
+			releasedSettings = true;
+		}
+		if (playSettingsBased.contains(x, y)) {
+			clickedSettingsBased = true;
+		}
+		else  {
+				clickedSettings = false;
+		}
 		repaint();
 	}
 }
