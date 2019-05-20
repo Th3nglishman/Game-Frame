@@ -3,7 +3,7 @@ Game Frame: a frame for games
 -
 
 This program was written by Elwin He, Krishan Patel, and John Whitney starting May 1.
-This program is a simple interface for playing and experimenting with classic games in a simplistic interface without neccesity of an emulator or other secondary system. Anyone interested in the beginning of video games made enjoy this program to play games such as pong. When using this program it is important to remember that controls will be shown at the start with the exeption of the main menu which operates on a click to select interface. 
+This program is a simple interface for playing and experimenting with siplistic games easily without neccesity of an emulator or other secondary system. Anyone interested in the beginning of video games made enjoy this program to play games such as pong. When using this program it is important to remember that controls will be shown at the start with the exeption of the main menu which operates on a click to select interface. 
 
 
 
