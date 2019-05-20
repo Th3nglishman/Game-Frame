@@ -1,15 +1,20 @@
 
+
+/*
+Name: Starter
+Description: Holds the main method
+*/
+
 public class Starter {
+	// Main
 	public static void main(String[] args) {
 		if (!(Constants.TEST)) {
 			Menu window = new Menu();
 			window.run();
 		}
 		else {
-			GameFrame w = new GameFrame(100,100,640,480);
-			Coordinates windowSize=w.getDimensions();
-			Pong game = new Pong(windowSize);
-			w.run(game);
+			TextBased tester=new TextBased();
+			tester.run();
 		}
 	}
 }

@@ -2,16 +2,26 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
 
-// Description: Provides a basic class for all graphics based games to use
+/*
+Name: Graphics game
+Description: is a super class for all graphics games
+*/
 
 public abstract class GraphicsGame extends Game implements KeyListener {
+	//	**Feilds**
 	private static final long serialVersionUID = 1L;
 
+	
+	//	**Constructors**
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	}
 
-	public abstract String getName();
-
+	
+	//	**Methods**
+	
+	// Public methods
+	
+	// Returns the game background color
 	public abstract Color getBackground();
 }

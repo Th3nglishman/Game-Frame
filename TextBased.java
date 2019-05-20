@@ -1,16 +1,28 @@
 import java.util.Scanner;
 
+/*
+Name: Text Based
+Description: Is a text based game
+*/
+
 public class TextBased extends Game {
+	//	**Feilds**
 	private static final long serialVersionUID = 1L;
-	
 	Scanner kboard=new Scanner(System.in);
 	String userInput;
 
+	
+	//	**Methods**
+	
+	// Public methods
+	
+	// Returns name
 	@Override
 	public String getName() {
 		return "Text Based";
 	}
 
+	// Runs this game
 	public void run() {
 		System.out.println("\f");
 		System.out.println("Welcome to my GameFrame, why don't you stay awhile?");

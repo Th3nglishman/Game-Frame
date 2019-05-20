@@ -1,25 +1,54 @@
+import java.awt.Color;
 import java.awt.Container;
-import java.awt.Graphics;
-
 import javax.swing.JFrame;
-// Description: Is an easel for a given game
+
+/*
+Name: Game Frame
+Description: Is a JFrame for all games (and the menu)
+*/
+
 public class GameFrame extends JFrame {
+	//	**Feilds**
 	private static boolean MAX=Constants.MAX;
-	
 	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
 	private JFrame w;
+	private Container c;
 	private Coordinates coords;
-	// Constructor
+	
+	
+	//	**Constructors**
 	public GameFrame( int xOff, int yOff, int x, int y) {
 		width = x;
 		height = y;
 		coords = new Coordinates(xOff, yOff);
+		w= new JFrame();
 	}
-	// Runs the easel with a given game as the content
+	
+	//	**Methods**
+	
+	// Public methods
+	
+	// Runs a menu instance
+	public void runMenu() {
+		w.setName("Menu");
+		w.setBounds(0, 0, 640, 480);
+		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		Menu menu = new Menu();
+		menu.setBackground(Color.WHITE);
+
+		c = w.getContentPane();
+		c.add(menu);
+
+		w.setResizable(true);
+		w.setVisible(true);
+	}
+
+	// Runs a game instance
 	public void run(GraphicsGame g) {
-		w = new JFrame(g.getName());
+		w.setName(g.getName());
 		if (!MAX) {
 			w.setBounds(coords.getX(), coords.getY(), width, height);
 		}
@@ -36,11 +65,8 @@ public class GameFrame extends JFrame {
 		w.setResizable(true);
 		w.setVisible(true);
 	}
-	
-	public void paint(Graphics g) {
-		w.setResizable(false);
-	}
-	// Returns the dimensions of the Window
+
+	// Returns this window's dimensions
 	public Coordinates getDimensions() {
 		Coordinates dimensions= new Coordinates(width,height);
 		return dimensions;

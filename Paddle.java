@@ -1,9 +1,15 @@
 import java.awt.Image;
 
-// Description: Is a moveable thing, a paddle even
+/*
+Name: Paddle
+Description: is a paddle object
+*/
 
-public class Paddle extends MoveableThing {
-
+public class Paddle extends MoveableSprite {
+	//	**Feilds**
+	
+	
+	//	**Constructors**
 	public Paddle(Image pic, int x, int y) {
 		super(pic, x, y);
 	}

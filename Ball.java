@@ -1,28 +1,44 @@
 import java.awt.Image;
 
-// Description: this class stores a ball to be printed and used in the game PONG
+/*
+Name: Ball
+Description: Is a ball object
+*/
 
-public class Ball extends MoveableThing {
-	//Fields
+public class Ball extends MoveableSprite {
+	//	**Feilds**
 	private int angle;
 	private int speed;
+	private int speedPoint;
 	private Ball lastBall;
-
+	
+	
+	//	**Constructors**
 	public Ball(Image pic, int x, int y) {
 		super(pic, x, y);
+		speed=5;
 	}
+	
+	public Ball(Image pic, int x, int y, int width, int height) {
+		super(pic, x, y,width,height);
+		speed=5;
+	}
+	
+	//	**Methods**
 
-	// @return the angle
+	// Public methods
+	
+	// Returns this ball's angle
 	public int getAngle() {
 		return angle;
 	}
 
-	// @param angle the angle to set
+	// Sets this ball's angle
 	public void setAngle(int angle) {
 		this.angle = angle % 360;
 	}
-	
-// Randomizes ball angle at the game start
+
+	// Generates this ball's starting angle
 	public void play() {
 		int randomAngle = (int) (Math.random() * 180);
 		if (randomAngle < 45) {
@@ -38,8 +54,8 @@ public class Ball extends MoveableThing {
 		}
 		this.setAngle(randomAngle);
 	}
-	
-// Randomizes ball angle at the game start
+
+	// Tests the above code
 	public String playTest() {
 		String result = "";
 		for (int f = 0; f < 100; f++) {
@@ -63,31 +79,58 @@ public class Ball extends MoveableThing {
 		return result;
 	}
 
-	/**
-	 * @return the speed
-	 */
+	// Returns this ball's speed
 	public int getSpeed() {
 		return speed;
 	}
 
-	/**
-	 * @param speed the speed to set
-	 */
+	// Sets this balls speed
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
-	/**
-	 * @return the lastBall
-	 */
+	// Returns the last ball
 	public Ball getLastBall() {
 		return lastBall;
 	}
 
-	/**
-	 * @param lastBall the lastBall to set
-	 */
+	// Sets this ball as the last one
 	public void setLastBall(Ball lastBall) {
 		this.lastBall = lastBall;
+	}
+	
+	// Moves this ball
+	public void moveBall() {
+		this.setX(getX()+speed);
+//		System.out.println(speed);
+	}
+	
+	// Moves this ball 
+	public void moveBall(int movement) {
+		this.setX(getX()+movement);
+//		System.out.println(speed);
+	}
+
+	// Reverses ball speed
+	public void reverseSpeed() {
+		speed=speed*-1;
+	}
+	
+	// Adds a speed
+	public void addSpeed() {
+		if (speed<0&&speedPoint==4) {
+			speed-=1;
+			speedPoint=0;
+		}
+		else if (speedPoint==4) {
+			speed+=1;
+			speedPoint=0;
+		}
+		else if (4<speedPoint) {
+			speedPoint=4;
+		}
+		else {
+			speedPoint++;
+		}
 	}
 }
