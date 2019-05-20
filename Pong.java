@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -33,6 +36,7 @@ public class Pong extends GraphicsGame implements ActionListener {
 	private boolean restart;
 	private boolean topWallCollision;
 	private boolean bottomWallCollision;
+	private final Set<Integer> keysPressed = new HashSet<Integer>();
 	
 	//	**Constructors**
 	public Pong(Coordinates size) {
@@ -118,21 +122,32 @@ public class Pong extends GraphicsGame implements ActionListener {
 	// Checks if a key is pressed
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		int code = arg0.getKeyCode();
-		if (code == KeyEvent.VK_UP) {
-			right.setY(right.getY() - 5);
-			moved=true;
-		} else if (code == KeyEvent.VK_DOWN) {
-			right.setY(right.getY() + 5);
-			moved=true;
+
+		keysPressed.add(arg0.getKeyCode());
+		if (keysPressed.size() > 1) {
+
+			// size is greater than one which means you
+			// have pressed more than one key.
+			movement(keysPressed);
+
+		} else {
+			int code = arg0.getKeyCode();
+			if (code == KeyEvent.VK_UP) {
+				right.setY(right.getY() - 5);
+				moved = true;
+			} else if (code == KeyEvent.VK_DOWN) {
+				right.setY(right.getY() + 5);
+				moved = true;
+			}
+			if (code == KeyEvent.VK_W) {
+				left.setY(left.getY() + -5);
+				moved = true;
+			} else if (code == KeyEvent.VK_S) {
+				left.setY(left.getY() + 5);
+				moved = true;
+			}
 		}
-		if (code == KeyEvent.VK_W) {
-			left.setY(left.getY() + -5);
-			moved=true;
-		} else if (code == KeyEvent.VK_S) {
-			left.setY(left.getY() + 5);
-			moved=true;
-		}
+		keysPressed.clear();
 	}
 
 	// Checks if a key is released
@@ -196,6 +211,26 @@ public class Pong extends GraphicsGame implements ActionListener {
 						paddleCollision = true;
 					}
 				}
+			}
+		}
+	}
+	
+	// moves stuff
+	private void movement(Set<Integer> Keyspressed) {
+
+		for (Integer b1 : keysPressed) {
+
+			// System.out.println("KeysPressed = " + keysPressed);
+			if (b1 == KeyEvent.VK_S && b1 == KeyEvent.VK_DOWN) {
+				// move both paddles down
+				right.setY(right.getY() + 5);
+				left.setY(left.getY() + 5);
+				moved = true;
+			} else if (b1 == KeyEvent.VK_W && b1 == KeyEvent.VK_UP) {
+				// move both paddles up
+				right.setY(right.getY() - 5);
+				left.setY(left.getY() + -5);
+				moved = true;
 			}
 		}
 	}
