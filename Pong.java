@@ -1,24 +1,29 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
 /*
 Name: Pong
 Description: is the game Pong
 */
 
-public class Pong extends GraphicsGame {
+public class Pong extends GraphicsGame implements ActionListener {
 	//	**Feilds**
 	private static final long serialVersionUID = 1L;
 	private Paddle left;
 	private Paddle right;
 	private Ball pongBall;
-	private int P1score=0;
-	private int P2score=0;
+	private String p1;
+	private String p2;
+	private Timer timer;
+	private int p1score=0;
+	private int p2score=0;
 	private boolean first=true;
 	private boolean moved=false;
 	private boolean gameStarted;
@@ -34,6 +39,9 @@ public class Pong extends GraphicsGame {
 		left = new Paddle(paddle, 0, 0);
 		right = new Paddle(paddle, 0, 0);
 		pongBall = new Ball(ball, 0, 0);
+		timer = new Timer(30, this);
+		timer.setRepeats(true);
+		timer.addActionListener(this);
 		repaint();
 	}
 
@@ -51,20 +59,27 @@ public class Pong extends GraphicsGame {
 	// Paints this game
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		g.setColor(Color.WHITE);
+		p1=("P1:"+p1score);
+		p2=("P2:"+p2score);
+		g.drawString(p1, 0, 10);
+		g.drawString(p2, getWidth()-30, 10);
 		if (restart) {
 			first=true;
 			moved=false;
 			gameStarted=false;
 			restart=false;
+			pongBall.setSpeed(10);
 		}
-		if (first) {
+		if (!moved) {
 			left.setY((this.getHeight()-left.getHeight())/2);
 			right.setY((this.getHeight()-right.getHeight())/2);
 			pongBall.setY((this.getHeight()-pongBall.getHeight())/2);
 			pongBall.setX((getWidth()-pongBall.getWidth())/2);
 			first = false;
+			timer.start();
 		}
-		if (moved) {
+		else if (moved) {
 			if ((gameStarted==false)) {
 				if (Constants.TEST) {
 					String play=pongBall.playTest();
@@ -86,6 +101,7 @@ public class Pong extends GraphicsGame {
 		right.draw(g,this);
 		if (paddleCollision) {
 			pongBall.reverseSpeed();
+			pongBall.addSpeed();
 		}
 		pongBall.draw(g,this);
 		paddleCollision=false;
@@ -103,7 +119,7 @@ public class Pong extends GraphicsGame {
 		right.draw(g, this);
 		
 		if (!((pongBall.getX()+pongBall.getWidth())<getWidth())) {
-			P2score++;
+			p2score++;
 			looper=false;
 			restart=true;
 		}
@@ -112,7 +128,7 @@ public class Pong extends GraphicsGame {
 			looper=false;
 		}
 		else if (pongBall.getX()<0) {
-			P1score++;
+			p1score++;
 			looper=false;
 			restart=true;
 		}
@@ -129,15 +145,6 @@ public class Pong extends GraphicsGame {
 				}
 			}
 		}
-//		if (looper=false) {
-//			System.out.println("JUB");
-//		}
-//		if (pongBall.checkCollision(left)) {
-//			collision=true;
-//		}
-//		if (pongBall.checkCollision(right)) {
-//			collision=true;
-//		}
 	}
 
 
@@ -176,5 +183,11 @@ public class Pong extends GraphicsGame {
 	@Override
 	public Color getBackground() {
 		return Color.BLACK;
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		repaint();
 	}
 }
