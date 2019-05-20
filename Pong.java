@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
@@ -16,14 +17,18 @@ public class Pong extends GraphicsGame {
 	private Paddle left;
 	private Paddle right;
 	private Ball pongBall;
+	private int P1score=0;
+	private int P2score=0;
 	private boolean first=true;
 	private boolean moved=false;
 	private boolean gameStarted;
-
+	private boolean paddleCollision;
+	private boolean restart;
+	private boolean topWallCollision;
+	private boolean bottomWallCollision;
 	
 	//	**Constructors**
 	public Pong(Coordinates size) {
-		
 		Image paddle = ((new ImageIcon("paddle.gif")).getImage());
 		Image ball = ((new ImageIcon("ball.gif")).getImage());
 		left = new Paddle(paddle, 0, 0);
@@ -46,6 +51,12 @@ public class Pong extends GraphicsGame {
 	// Paints this game
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		if (restart) {
+			first=true;
+			moved=false;
+			gameStarted=false;
+			restart=false;
+		}
 		if (first) {
 			left.setY((this.getHeight()-left.getHeight())/2);
 			right.setY((this.getHeight()-right.getHeight())/2);
@@ -53,23 +64,82 @@ public class Pong extends GraphicsGame {
 			pongBall.setX((getWidth()-pongBall.getWidth())/2);
 			first = false;
 		}
-		if (moved&&(gameStarted==false)) {
-			if (Constants.TEST) {
-				String play=pongBall.playTest();
-				System.out.println(play);
+		if (moved) {
+			if ((gameStarted==false)) {
+				if (Constants.TEST) {
+					String play=pongBall.playTest();
+					System.out.println(play);
+				}
+				else {
+					pongBall.play();
+					gameStarted=true;
+				}
 			}
 			else {
-				pongBall.play();
-				gameStarted=true;
+				pongBall.moveBall();
+				this.checkCollision();
 			}
 		}
 		right.setX(getWidth()-20);
 		
-		
 		left.draw(g,this);
 		right.draw(g,this);
+		if (paddleCollision) {
+			pongBall.reverseSpeed();
+		}
 		pongBall.draw(g,this);
+		paddleCollision=false;
 	}
+
+	// Checks the ball's collision
+	private void checkCollision() {
+		boolean looper=true;		
+		
+		BufferedImage pic = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics g = pic.getGraphics();
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, pic.getWidth(), pic.getHeight());
+		left.draw(g, this);
+		right.draw(g, this);
+		
+		if (!((pongBall.getX()+pongBall.getWidth())<getWidth())) {
+			P2score++;
+			looper=false;
+			restart=true;
+		}
+		else if (!((pongBall.getY()+pongBall.getHeight())<getHeight())) {
+			bottomWallCollision=true;
+			looper=false;
+		}
+		else if (pongBall.getX()<0) {
+			P1score++;
+			looper=false;
+			restart=true;
+		}
+		else if (pongBall.getY()<0) {
+			topWallCollision=true;
+			looper=false;
+		}
+		if (looper) {
+			for (int i = pongBall.getX(); i < (pongBall.getX() + pongBall.getWidth()); i++) {
+				for (int j = pongBall.getY(); j < (pongBall.getY() + pongBall.getHeight()); j++) {
+					if (pic.getRGB(i, j) != Color.BLACK.getRGB()) {
+						paddleCollision = true;
+					}
+				}
+			}
+		}
+//		if (looper=false) {
+//			System.out.println("JUB");
+//		}
+//		if (pongBall.checkCollision(left)) {
+//			collision=true;
+//		}
+//		if (pongBall.checkCollision(right)) {
+//			collision=true;
+//		}
+	}
+
 
 	// Checks if a key is pressed
 	@Override

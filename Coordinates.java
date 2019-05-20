@@ -61,7 +61,12 @@ public class Coordinates {
 	}
 
 	// Returns the coordinate transformer
-	public AffineTransform getCoordinates() {
+	public Coordinates getCoordinates() {
+		return new Coordinates(x, y);
+	}
+	
+	// Returns this transform
+	public AffineTransform getAffineTransform() {
 		return coordTransform;
 	}
 }

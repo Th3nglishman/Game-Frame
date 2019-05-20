@@ -15,6 +15,7 @@ public class Ball extends MoveableSprite {
 	//	**Constructors**
 	public Ball(Image pic, int x, int y) {
 		super(pic, x, y);
+		speed=10;
 	}
 
 	
@@ -91,5 +92,14 @@ public class Ball extends MoveableSprite {
 	// Sets this ball as the last one
 	public void setLastBall(Ball lastBall) {
 		this.lastBall = lastBall;
+	}
+	// Moves this ball
+	public void moveBall() {
+		this.setX(getX()+speed);
+	}
+
+	// Reverses ball speed
+	public void reverseSpeed() {
+		speed=speed*-1;
 	}
 }

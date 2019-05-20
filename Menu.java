@@ -27,7 +27,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	public Menu() {
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		gF = new GameFrame(100, 100, 640, 480);
+		gF = new GameFrame(0, 0, 640, 480);
 	}
 
 	

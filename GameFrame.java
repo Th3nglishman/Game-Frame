@@ -33,7 +33,7 @@ public class GameFrame extends JFrame {
 	// Runs a menu instance
 	public void runMenu() {
 		w.setName("Menu");
-		w.setBounds(100, 100, 640, 480);
+		w.setBounds(0, 0, 640, 480);
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		Menu menu = new Menu();
