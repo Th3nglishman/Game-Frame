@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -29,13 +28,12 @@ public class Pong extends GraphicsGame implements ActionListener {
 	private int p2score=0;
 	private boolean p1Win=false;
 	private boolean p2Win=false;
-	private boolean first=true;
 	private boolean moved=false;
 	private boolean gameStarted;
 	private boolean paddleCollision;
 	private boolean restart;
-	private boolean topWallCollision;
-	private boolean bottomWallCollision;
+//	private boolean topWallCollision;
+//	private boolean bottomWallCollision;
 	private final Set<Integer> keysPressed = new HashSet<Integer>();
 	
 	//	**Constructors**
@@ -71,7 +69,6 @@ public class Pong extends GraphicsGame implements ActionListener {
 		g.drawString(p1, 0, 10);
 		g.drawString(p2, getWidth()-30, 10);
 		if (restart) {
-			first=true;
 			moved=false;
 			gameStarted=false;
 			restart=false;
@@ -88,7 +85,6 @@ public class Pong extends GraphicsGame implements ActionListener {
 			right.setY((this.getHeight()-right.getHeight())/2);
 			pongBall.setY((this.getHeight()-pongBall.getHeight())/2);
 			pongBall.setX((getWidth()-pongBall.getWidth())/2);
-			first = false;
 			timer.start();
 		}
 		else if (moved) {
@@ -192,7 +188,7 @@ public class Pong extends GraphicsGame implements ActionListener {
 			restart=true;
 		}
 		else if (!((pongBall.getY()+pongBall.getHeight())<getHeight())) {
-			bottomWallCollision=true;
+//			bottomWallCollision=true;
 			looper=false;
 		}
 		else if (pongBall.getX()<0) {
@@ -201,7 +197,7 @@ public class Pong extends GraphicsGame implements ActionListener {
 			restart=true;
 		}
 		else if (pongBall.getY()<0) {
-			topWallCollision=true;
+//			topWallCollision=true;
 			looper=false;
 		}
 		if (looper) {
