@@ -17,14 +17,14 @@ import javax.swing.JPanel;
 public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 
-	private Image play = new ImageIcon("src/PLAY.png").getImage();
-	private Image title = new ImageIcon("src/TitleFrame.png").getImage();
-	private Image greenButton = new ImageIcon("src/GreenButton.png").getImage();
-	private Image pressedButton = new ImageIcon("src/PressedButton.png").getImage();
-	private Image redButton = new ImageIcon("src/redButton.png").getImage();
-	private Image pressedRed = new ImageIcon("src/RedButtonPressed.png").getImage();
-	private Image gear = new ImageIcon("src/GEAR.png").getImage();
-	private Image SettingsFrame = new ImageIcon("src/SettingsFrame.png").getImage();
+	private Image play = new ImageIcon("PLAY.png").getImage();
+	private Image title = new ImageIcon("TitleFrame.png").getImage();
+	private Image greenButton = new ImageIcon("GreenButton.png").getImage();
+	private Image pressedButton = new ImageIcon("PressedButton.png").getImage();
+	private Image redButton = new ImageIcon("redButton.png").getImage();
+	private Image pressedRed = new ImageIcon("RedButtonPressed.png").getImage();
+	private Image gear = new ImageIcon("GEAR.png").getImage();
+	private Image SettingsFrame = new ImageIcon("SettingsFrame.png").getImage();
 
 	
 	private Rectangle playPong;
