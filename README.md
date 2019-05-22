@@ -38,4 +38,9 @@ Krishan Patel - Fix-it-legend
 -
 John Whitney - GAME (Game Artist Master Extraordinaire)
 -
-
+Mr. Taylor - Example code
+-
+Stack overflow - Concept explaination
+-
+The Java API - Syntax and capabilities
+-
