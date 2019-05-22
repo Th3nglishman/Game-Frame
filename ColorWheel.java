@@ -22,12 +22,11 @@ public class ColorWheel extends GraphicsGame implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
-	//Notes:
+
+	// Notes:
 	// there are 13 colors java can print
 	// some trouble on incorporating time into game
-	
+
 	private Rectangle uL;
 	private Rectangle uR;
 	private Rectangle lR;
@@ -42,18 +41,19 @@ public class ColorWheel extends GraphicsGame implements ActionListener {
 	private boolean uRclicked;
 	private boolean lLclicked;
 	private boolean lRclicked;
+	private boolean buttonClicked;
 
-	
 	private String upRText;
 	private String upLText;
 	private String lRText;
 	private String lLText;
 	private final int MAX_TIME = 15;
+	private final int MIN_TIME = 5;
 	private boolean passed;
-	
-	
+	private boolean first = true;
+
 	private String BoxColor;
-	
+
 	private int xCenter;
 	private int yCenter;
 
@@ -66,6 +66,7 @@ public class ColorWheel extends GraphicsGame implements ActionListener {
 	private boolean triumph;
 
 	private int correctBox;
+	private int delay = MAX_TIME * 1000;
 
 	double rand;
 	int random;
@@ -76,13 +77,14 @@ public class ColorWheel extends GraphicsGame implements ActionListener {
 
 		xCenter = getWidth() / 2;
 		yCenter = getHeight() / 2;
-		timer = new Timer(30, this);
+		timer = new Timer(1000, this);
 		timer.setRepeats(true);
 		timer.addActionListener(this);
 		this.setBackground(Color.WHITE);
 		triumph = false;
 		repaint();
 	}
+
 	public String getName() {
 		return "ColorWheel";
 	}
@@ -90,89 +92,93 @@ public class ColorWheel extends GraphicsGame implements ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		
-		scoreboard = new Rectangle(getHeight()*4/5, 0, getHeight()/5, getHeight());
-		pointTally = new Rectangle(scoreboard.x + scoreboard.x/40,scoreboard.y + scoreboard.y/10,	scoreboard.x*38/40,scoreboard.y/10);
-		levels = new Rectangle(pointTally.x, (pointTally.y + pointTally.width*2),pointTally.width,pointTally.height);
-		restart = new Rectangle(levels.x, (levels.x + levels.width*2), levels.width, levels.height);
+		scoreboard = new Rectangle(getHeight() * 4 / 5, 0, getHeight() / 5, getHeight());
+		pointTally = new Rectangle(scoreboard.x + scoreboard.x / 40, scoreboard.y + scoreboard.y / 10,
+				scoreboard.x * 38 / 40, scoreboard.y / 10);
+		levels = new Rectangle(pointTally.x, (pointTally.y + pointTally.width * 2), pointTally.width,
+				pointTally.height);
+		restart = new Rectangle(levels.x, (levels.x + levels.width * 2), levels.width, levels.height);
 
-		uL = new Rectangle(0, 0, getWidth()*2/5, getHeight()*2/5);
-		uR = new Rectangle(getWidth()*2/5, 0, getWidth()*2/5, getHeight()*2/5);
-		center = new Rectangle(0, getHeight()*2/5, getWidth()*4/5, getHeight()/5);
-		lL = new Rectangle(0, getHeight()*3/5, getWidth()*2/5, getHeight()*2/5);
-		lR = new Rectangle(getWidth()*2/5,getHeight()*3/5, getWidth()*2/5, getHeight()*2/5);
-		
-		//changeColor(uLC);
-		
-		g.setColor(Color.BLUE);
+		uL = new Rectangle(0, 0, getWidth() * 2 / 5, getHeight() * 2 / 5);
+		uR = new Rectangle(getWidth() * 2 / 5, 0, getWidth() * 2 / 5, getHeight() * 2 / 5);
+		center = new Rectangle(0, getHeight() * 2 / 5, getWidth() * 4 / 5, getHeight() / 5);
+		lL = new Rectangle(0, getHeight() * 3 / 5, getWidth() * 2 / 5, getHeight() * 2 / 5);
+		lR = new Rectangle(getWidth() * 2 / 5, getHeight() * 3 / 5, getWidth() * 2 / 5, getHeight() * 2 / 5);
+
+		changeColor(uLC);
+
+		g.setColor(uLC);
 		g.fillRect(uL.x, uL.y, uL.width, uL.height);
-		
-		//changeColor(uRC);
-		
-		g.setColor(Color.RED);
+
+		changeColor(uRC);
+
+		g.setColor(uRC);
 		g.fillRect(uR.x, uR.y, uR.width, uR.height);
-		
-		//changeColor(lLC);
-		
-		g.setColor(Color.GREEN);
+
+		changeColor(lLC);
+
+		g.setColor(lLC);
 		g.fillRect(lL.x, lL.y, lL.width, lL.height);
-		
-		//changeColor(lRC);
-		
-		g.setColor(Color.YELLOW);
-		g.fillRect(lR.x,lR.y, lR.width, lR.height);
-		
+
+		changeColor(lRC);
+
+		g.setColor(lRC);
+		g.fillRect(lR.x, lR.y, lR.width, lR.height);
+
 		g.setColor(Color.BLACK);
 		g.fillRect(center.x, center.y, center.width, center.height);
+
 		g.setColor(Color.WHITE);
-		g.drawString("to be filled", (int)center.getCenterX()/2, (int)center.getCenterY());
-		
-		int start = (int) (System.currentTimeMillis()/1000);
-		
-		random = (int)(Math.random() * 4);
-		
-		switch(random) {
+		g.drawString("to be filled", (int) center.getCenterX() / 2, (int) center.getCenterY());
+
+		if (first) {
+			timer.setDelay(delay + 1000);// delay = 1sec
+			timer.start();
+		} else {
+			timer.setDelay(delay);
+			timer.restart();
+		}
+
+		int start = (int) (System.currentTimeMillis() / 1000);
+
+		random = (int) (Math.random() * 4);
+
+		switch (random) {
 		case 0:
 			correct = uLC;
 		case 1:
-			correct = uRC;		
+			correct = uRC;
 		case 2:
-			correct = lLC;	
+			correct = lLC;
 		default:
-			correct = lRC;	
+			correct = lRC;
 		}
-		//incorporate timer
-		
-		 int stop =(int) (System.currentTimeMillis()/1000);
-		
-		if((stop - start)<=15) 
+		// incorporate timer
+
+		int stop = (int) (System.currentTimeMillis() / 1000);
+
+		if ((stop - start) <= 15)
 			passed = true;
-		
+
 		else
 			passed = false;
-		 
-		if(uLclicked && (correct == uLC)&&passed)
+
+		if (uLclicked && (correct == uLC) && passed)
 			triumph = true;
-		else if(uRclicked && (correct == uRC)&&passed)
+		else if (uRclicked && (correct == uRC) && passed)
 			triumph = true;
-		else if(lLclicked && (correct == lLC)&&passed)
+		else if (lLclicked && (correct == lLC) && passed)
 			triumph = true;
-		else if(lRclicked && (correct == lRC)&&passed)
+		else if (lRclicked && (correct == lRC) && passed)
 			triumph = true;
-		
+
 		g.setFont(Font.getFont("Arial"));
-	//	g.setColor(Color.BLACK);
-		
-		if(triumph)
-			g.drawString("VICTORY!", (int)center.getCenterX(), (int)center.getCenterY());
+		// g.setColor(Color.BLACK);
+
+		if (triumph)
+			g.drawString("VICTORY!", (int) center.getCenterX(), (int) center.getCenterY());
 		else
-			g.drawString("FAIL", (int)center.getCenterX(), (int)center.getCenterY());
-			
-		
-		
-		
-		
-			
+			g.drawString("FAIL", (int) center.getCenterX(), (int) center.getCenterY());
 
 	}
 
@@ -188,8 +194,8 @@ public class ColorWheel extends GraphicsGame implements ActionListener {
 		correctBox = (int) (Math.random() * 5);// which box is correct
 
 		x = (int) (Math.random() * 12);
-		//System.out.println("X is = " + x);
-		//System.out.println("Correct box is " + correctBox);
+		// System.out.println("X is = " + x);
+		// System.out.println("Correct box is " + correctBox);
 
 		switch (x) {
 		case 0:
@@ -241,11 +247,13 @@ public class ColorWheel extends GraphicsGame implements ActionListener {
 
 	}
 
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(!buttonClicked) {
+			//check which button is clicked
+			
+			
+		}
 
 	}
 
@@ -260,41 +268,48 @@ public class ColorWheel extends GraphicsGame implements ActionListener {
 		}
 		if (uL.contains(x, y)) {
 			uLclicked = true;
+			buttonClicked = true;
 		} else if (uR.contains(x, y)) {
 			uRclicked = true;
+			buttonClicked = true;
 		} else if (lL.contains(x, y)) {
 			lLclicked = true;
+			buttonClicked = true;
 		} else if (lR.contains(x, y)) {
 			lRclicked = true;
+			buttonClicked = true;
+		} else if (levels.contains(x, y)) {
+			// change level
+		} else if (restart.contains(x, y)) {
+			// restart level
 		}
-		else if(levels.contains(x, y)) {
-			//change level
-		}
-		else if(restart.contains(x, y)) {
-			//restart level
-		}
-	//	timer.stop();
+		// timer.stop();
+
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public Color getBackground() {
 		// TODO Auto-generated method stub
