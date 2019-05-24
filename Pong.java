@@ -26,14 +26,15 @@ public class Pong extends GraphicsGame implements ActionListener {
 	private Timer timer;
 	private int p1score=0;
 	private int p2score=0;
+	private int aiIncrementer;
 	private boolean p1Win=false;
 	private boolean p2Win=false;
 	private boolean moved=false;
 	private boolean gameStarted;
 	private boolean paddleCollision;
 	private boolean restart;
-//	private boolean topWallCollision;
-//	private boolean bottomWallCollision;
+	private boolean topWallCollision;
+	private boolean bottomWallCollision;
 	private final Set<Integer> keysPressed = new HashSet<Integer>();
 	
 	//	**Constructors**
@@ -101,6 +102,24 @@ public class Pong extends GraphicsGame implements ActionListener {
 			else {
 				pongBall.moveBall();
 				this.checkCollision();
+				if (Constants.AI&&3<=aiIncrementer) {
+					aiIncrementer=0;
+					right.setBallY(pongBall);
+					if (right.moveUp()) {
+						if (!((right.getY()+(right.getHeight()/2))>=this.getHeight())) {
+							right.setY(right.getY() + 5);
+						}
+					}
+					else {
+						if (!(right.getY()<=0)) {
+							right.setY(right.getY() - 5);
+						}
+					}
+				}
+				
+				else {
+					aiIncrementer++;
+				}
 			}
 		}
 		right.setX(getWidth()-20);
@@ -108,11 +127,26 @@ public class Pong extends GraphicsGame implements ActionListener {
 		left.draw(g,this);
 		right.draw(g,this);
 		if (paddleCollision) {
+			int angle=pongBall.getAngle();
+			angle=angle-180;
+			
 			pongBall.reverseSpeed();
 			pongBall.addSpeed();
 		}
+		if (topWallCollision) {
+			pongBall.setAngle(((pongBall.getAngle()-180)*-1)+180);
+//			pongBall.reverseSpeed();
+//			pongBall.setY(pongBall.getY()+5);
+		}
+		if (bottomWallCollision) {
+			pongBall.setAngle(((pongBall.getAngle()-180)*-1)+180);
+//			pongBall.reverseSpeed();
+//			pongBall.setY(pongBall.getY()-5);
+		}
 		pongBall.draw(g,this);
 		paddleCollision=false;
+		topWallCollision=false;
+		bottomWallCollision=false;
 	}
 
 	// Checks if a key is pressed
@@ -128,19 +162,27 @@ public class Pong extends GraphicsGame implements ActionListener {
 
 		} else {
 			int code = arg0.getKeyCode();
-			if (code == KeyEvent.VK_UP) {
-				right.setY(right.getY() - 5);
-				moved = true;
-			} else if (code == KeyEvent.VK_DOWN) {
-				right.setY(right.getY() + 5);
-				moved = true;
+			if (code == KeyEvent.VK_UP&&!Constants.AI) {
+				if (!(right.getY()<=0)) {
+					right.setY(right.getY() - 5);
+					moved = true;
+				}
+			} else if (code == KeyEvent.VK_DOWN&&!Constants.AI) {
+				if (!((right.getY()+right.getHeight())>=this.getHeight())) {
+					right.setY(right.getY() + 5);
+					moved = true;
+				}
 			}
 			if (code == KeyEvent.VK_W) {
-				left.setY(left.getY() + -5);
-				moved = true;
+				if (!(left.getY()<=0)) {
+					left.setY(left.getY() + -5);
+					moved = true;
+				}
 			} else if (code == KeyEvent.VK_S) {
-				left.setY(left.getY() + 5);
-				moved = true;
+				if (!((left.getY()+left.getHeight())>=this.getHeight())) {
+					left.setY(left.getY() + 5);
+					moved = true;
+				}
 			}
 		}
 		keysPressed.clear();
@@ -188,7 +230,7 @@ public class Pong extends GraphicsGame implements ActionListener {
 			restart=true;
 		}
 		else if (!((pongBall.getY()+pongBall.getHeight())<getHeight())) {
-//			bottomWallCollision=true;
+			bottomWallCollision=true;
 			looper=false;
 		}
 		else if (pongBall.getX()<0) {
@@ -197,7 +239,7 @@ public class Pong extends GraphicsGame implements ActionListener {
 			restart=true;
 		}
 		else if (pongBall.getY()<0) {
-//			topWallCollision=true;
+			topWallCollision=true;
 			looper=false;
 		}
 		if (looper) {
