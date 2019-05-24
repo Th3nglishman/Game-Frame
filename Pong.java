@@ -128,13 +128,10 @@ public class Pong extends GraphicsGame implements ActionListener {
 		right.draw(g,this);
 		
 		this.checkCollision();
-		if (paddleCollision&&fixBug<=0) {
+		if (paddleCollision&&(fixBug<=0||Constants.FEATURE)) {
 			fixBug+=5;
 			if (pongBall.getAngle()<180) {
 				pongBall.setAngle((180-pongBall.getAngle()));
-//				if (pongBall.getX()) {
-//					
-//				}
 			}
 			else if (pongBall.getAngle()>180) {
 				pongBall.setAngle(180-(pongBall.getAngle()-180));
