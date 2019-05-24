@@ -126,7 +126,9 @@ public class Ball extends MoveableSprite {
 	// Moves this ball 
 	public void moveBall(int movement) {
 		this.setX(getX()+movement);
-//		System.out.println(speed);
+		if (Constants.TEST) {
+			System.out.println(speed);
+		}
 	}
 
 	// Reverses ball speed
