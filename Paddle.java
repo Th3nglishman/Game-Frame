@@ -22,10 +22,10 @@ public class Paddle extends MoveableSprite {
 	
 	// 
 	public boolean moveUp() {
-		if ((this.getY()-(this.getHeight()/2))<ballY) {
-			return true;
+		if ((this.getY()+(this.getHeight()/2))<ballY) {
+			return false;
 		}
 		else 
-			return false;
+			return true;
 	}
 }

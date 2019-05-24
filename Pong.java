@@ -101,18 +101,17 @@ public class Pong extends GraphicsGame implements ActionListener {
 			}
 			else {
 				pongBall.moveBall();
-				this.checkCollision();
 				if (Constants.AI&&3<=aiIncrementer) {
 					aiIncrementer=0;
 					right.setBallY(pongBall);
 					if (right.moveUp()) {
-						if (!((right.getY()+(right.getHeight()/2))>=this.getHeight())) {
-							right.setY(right.getY() + 5);
+						if (!(right.getY()<=0)) {
+							right.setY(right.getY() - 5);
 						}
 					}
 					else {
-						if (!(right.getY()<=0)) {
-							right.setY(right.getY() - 5);
+						if (!((right.getY()+(right.getHeight()/2))>=this.getHeight())) {
+							right.setY(right.getY() + 5);
 						}
 					}
 				}
@@ -126,22 +125,28 @@ public class Pong extends GraphicsGame implements ActionListener {
 		
 		left.draw(g,this);
 		right.draw(g,this);
+		
+		this.checkCollision();
 		if (paddleCollision) {
-			int angle=pongBall.getAngle();
-			angle=angle-180;
-			
-			pongBall.reverseSpeed();
+			if (pongBall.getAngle()<180) {
+				pongBall.setAngle((180-pongBall.getAngle()));
+//				if (pongBall.getX()) {
+//					
+//				}
+			}
+			else if (pongBall.getAngle()>180) {
+				pongBall.setAngle(180-(pongBall.getAngle()-180));
+			}
+			else {
+				pongBall.setAngle((pongBall.getAngle()+180));
+			}
 			pongBall.addSpeed();
 		}
 		if (topWallCollision) {
 			pongBall.setAngle(((pongBall.getAngle()-180)*-1)+180);
-//			pongBall.reverseSpeed();
-//			pongBall.setY(pongBall.getY()+5);
 		}
 		if (bottomWallCollision) {
 			pongBall.setAngle(((pongBall.getAngle()-180)*-1)+180);
-//			pongBall.reverseSpeed();
-//			pongBall.setY(pongBall.getY()-5);
 		}
 		pongBall.draw(g,this);
 		paddleCollision=false;
@@ -162,17 +167,17 @@ public class Pong extends GraphicsGame implements ActionListener {
 
 		} else {
 			int code = arg0.getKeyCode();
-			if (code == KeyEvent.VK_UP&&!Constants.AI) {
-				if (!(right.getY()<=0)) {
-					right.setY(right.getY() - 5);
-					moved = true;
-				}
-			} else if (code == KeyEvent.VK_DOWN&&!Constants.AI) {
-				if (!((right.getY()+right.getHeight())>=this.getHeight())) {
-					right.setY(right.getY() + 5);
-					moved = true;
-				}
-			}
+//			if (code == KeyEvent.VK_UP&&!Constants.AI) {
+//				if (!(right.getY()<=0)) {
+//					right.setY(right.getY() - 5);
+//					moved = true;
+//				}
+//			} else if (code == KeyEvent.VK_DOWN&&!Constants.AI) {
+//				if (!((right.getY()+right.getHeight())>=this.getHeight())) {
+//					right.setY(right.getY() + 5);
+//					moved = true;
+//				}
+//			}
 			if (code == KeyEvent.VK_W) {
 				if (!(left.getY()<=0)) {
 					left.setY(left.getY() + -5);
