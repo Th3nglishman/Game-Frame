@@ -27,6 +27,7 @@ public class Pong extends GraphicsGame implements ActionListener {
 	private int p1score=0;
 	private int p2score=0;
 	private int aiIncrementer;
+	private int fixBug=0;
 	private boolean p1Win=false;
 	private boolean p2Win=false;
 	private boolean moved=false;
@@ -127,7 +128,8 @@ public class Pong extends GraphicsGame implements ActionListener {
 		right.draw(g,this);
 		
 		this.checkCollision();
-		if (paddleCollision) {
+		if (paddleCollision&&fixBug<=0) {
+			fixBug+=5;
 			if (pongBall.getAngle()<180) {
 				pongBall.setAngle((180-pongBall.getAngle()));
 //				if (pongBall.getX()) {
@@ -141,6 +143,9 @@ public class Pong extends GraphicsGame implements ActionListener {
 				pongBall.setAngle((pongBall.getAngle()+180));
 			}
 			pongBall.addSpeed();
+		}
+		if (fixBug>0) {
+			fixBug--;
 		}
 		if (topWallCollision) {
 			pongBall.setAngle(((pongBall.getAngle()-180)*-1)+180);
