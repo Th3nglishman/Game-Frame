@@ -32,6 +32,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private Rectangle playTextBased;
 	private Rectangle playSettingsBased;
 	private Rectangle returnMenu;
+	private Rectangle exitMenu;
 
 	private Container c;
 	private JFrame w;
@@ -44,6 +45,8 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private boolean releasedSettingsBased=false;
 	private boolean clickedSettingsBased=false;
 	private boolean inSettings=false;
+	private boolean exitButtonDown=false;
+	private boolean exitSettings=false;
 	
 	public Menu () {
 		addMouseListener(this);
@@ -71,7 +74,18 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		
 		int xUnit=this.getWidth()/16;
 		int yUnit=this.getHeight()/16;
-	if (!inSettings) {
+		
+	if (inSettings) {
+		//Settings menu
+		g.drawImage(SettingsFrame,(int)(8*xUnit-323),(int)(7*yUnit-210), this);
+		g.setColor(Color.GRAY);
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
+		returnMenu=new Rectangle((int)(8*xUnit-274),(int)(7*yUnit - 120), 146, 121);
+		exitMenu=new Rectangle((int)(8*xUnit-274),(int)(7*yUnit + 187), 60, 60);
+	  	g2d.fillRect(returnMenu.x, returnMenu.y, returnMenu.width, returnMenu.height);
+	  	g2d.fillRect(exitMenu.x, exitMenu.y, exitMenu.width, exitMenu.height);
+		}
+	else if (!inSettings) {
 		g.drawImage(greenButton,(int)(8*xUnit-100),(int)(7*yUnit + 20), this);
 		g.drawImage(redButton,(int)(8*xUnit-100),(int)(7*yUnit + 120), this);
 		
@@ -84,17 +98,12 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		g.drawImage(gear,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
 		g.drawImage(title,(int)(8*xUnit-323),(int)(7*yUnit-210), this);
 		} 
-	else {
-		System.out.println("in settings");
-		g.drawImage(SettingsFrame,(int)(8*xUnit-323),(int)(7*yUnit-210), this);
-		g.setColor(Color.RED);
-	//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
-		returnMenu=new Rectangle((int)(8*xUnit-274),(int)(7*yUnit - 120), 146, 121);
-	//	returnMenu=new Rectangle((int)(8*xUnit-274),(int)(7*yUnit - 120), 146, 121);
-	//	returnMenu=new Rectangle((int)(8*xUnit-274),(int)(7*yUnit - 120), 146, 121);
-	  	g2d.fillRect(returnMenu.x, returnMenu.y, returnMenu.width, returnMenu.height);
-		}
 		
+		if(exitButtonDown) {
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+			g.fillRect((int)(8*xUnit-274),(int)(7*yUnit + 187), 60, 60);
+		}
+	
 		if (clickedSettings) {
 			g.drawImage(pressedRed,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
 			g.drawImage(gear,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
@@ -111,7 +120,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 //			g.setColor(Color.GREEN);
 		}
 		else {
-			g.setColor(Color.RED);
+			g.setColor(Color.GRAY);
 		}
 		
 		if (releasedPong) {
@@ -137,44 +146,47 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f)); //makes the rectangle transparent
 	  	g2d.fillRect(playPong.x, playPong.y, playPong.width, playPong.height);
 		
-		if (clickedTextBased) {
-			g.setColor(Color.GREEN);
-		}
-		else {
-			g.setColor(Color.YELLOW);
-		}
-		
 		if (releasedTextBased) {
 			clickedTextBased=false;
-//			g.setColor(Color.GREEN);
-		}
-		else {
-			g.setColor(Color.RED);
 		}
 		
 		if (releasedSettings) {
 			clickedSettings=false;
 			inSettings = true;
+			
 			removeAll();
-			
 			repaint();
-			
-
 		}
+
 		else {
 			g.setColor(Color.GREEN);
 		}
-		
-	  	g2d.fillRect(settings.x, settings.y, settings.width, settings.height);
-		g.fillRect(playTextBased.x, playTextBased.y, 0, 0);
+	  	if(exitButtonDown) {
+			g.setColor(Color.GRAY);
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.15f));
+			g.fillRect((int)(8*xUnit-274),(int)(7*yUnit + 187), 60, 60);
+			inSettings = false;
+			exitButtonDown = false;
+	  		}
 		
 		releasedSettings=false;
 		releasedSettingsBased=false;
 		
-		g.drawImage(play,(int)(8*xUnit-100),(int)(7*yUnit+20), this);
-		g.drawImage(gear,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
-
-
+		if(exitSettings) {
+		inSettings = false;
+		exitSettings = false;
+		
+		g.drawImage(greenButton,(int)(8*xUnit-100),(int)(7*yUnit + 20), this);
+		g.drawImage(redButton,(int)(8*xUnit-100),(int)(7*yUnit + 120), this);
+		System.out.println("ddd");
+		playPong=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+		playTextBased=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+		playSettingsBased=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+		settings=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 120),200, 70);
+		
+		exitSettings = false;
+		repaint();
+		}
 	}
 
 	@Override
@@ -213,7 +225,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 		x = e.getX();
 		y = e.getY();
-		if (!inSettings) {
+	if (!inSettings) {
 		if (Constants.TEST) {
 			System.out.println("X = "+ x + "Y = "+ y);
 		}
@@ -231,9 +243,15 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			clickedSettingsBased = true;
 		}
 		repaint();
+	} 
+	else if (inSettings) {
+		if (exitMenu.contains(x, y)) {
+				exitButtonDown = true;
 		}
-
+		repaint();
 	}
+
+}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -242,7 +260,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 		x = e.getX();
 		y = e.getY();
-		if (!inSettings) {
+	if (!inSettings) {
 		if (Constants.TEST) {
 			System.out.println("X = "+ x + "Y = "+ y);
 		}
@@ -266,6 +284,12 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 				clickedSettings = false;
 		}
 		repaint();
+	} 
+	else if (exitButtonDown) {
+		if (exitMenu.contains(x, y)) {
+				exitSettings = true;
+				repaint();
 		}
-	}
+  }
+}
 }
