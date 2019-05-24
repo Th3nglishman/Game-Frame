@@ -6,7 +6,7 @@ Description: Is a ball object
 */
 
 public class Ball extends MoveableSprite {
-	//	**Feilds**
+	//	**Fields**
 	private int angle;
 	private int speed;
 	private int speedPoint;
@@ -52,7 +52,14 @@ public class Ball extends MoveableSprite {
 		else if (randomAngle < 45 && randomAngle <= 180) {
 			randomAngle += 45;
 		}
-		this.setAngle(randomAngle);
+		if (randomAngle==180) {
+			randomAngle=179;
+		}
+		else if (randomAngle==0) {
+			randomAngle=1;
+		}
+		angle=randomAngle;
+		//System.out.println("angle is "+this.getAngle());
 	}
 
 	// Tests the above code
@@ -101,8 +108,19 @@ public class Ball extends MoveableSprite {
 	
 	// Moves this ball
 	public void moveBall() {
-		this.setX(getX()+speed);
-//		System.out.println(speed);
+		int speedX;
+		int speedY;
+		speedX = (int) (speed * Math.cos(Math.toRadians(this.angle)));
+		speedY = (int) (speed * Math.sin(Math.toRadians(this.angle)));
+		
+		if (Constants.TEST) {
+			System.out.println("X move: " +speedX +" "+ this.angle + " "+ Math.cos(Math.toRadians(this.angle)));
+			System.out.println();
+			System.out.println("X move: " +speedX +" "+ this.angle + " "+ Math.cos(Math.toRadians(this.angle)));
+			System.out.println(speed);
+		}
+		this.setX(getX()+speedX);
+		this.setY(getY()+speedY);
 	}
 	
 	// Moves this ball 
@@ -133,4 +151,5 @@ public class Ball extends MoveableSprite {
 			speedPoint++;
 		}
 	}
+	
 }
