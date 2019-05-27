@@ -87,22 +87,25 @@ public class TextBased extends Game {
 					System.out.println("You fall off");
 				}
 				else {
-					System.out.println("You have made it over and see the light of day");
 					looper = false;
+					System.out.println("You have made it over and see the light of day (press any key to continue)");
+					userInput=kboard.next();
 					win();
 				}
 				break;
 				
 			case "2":
-				System.out.println("it was a very small rock");
+				looper = false;
+				System.out.println("it was a very small rock (press any key to continue)");
 				userInput=kboard.next();
 				System.out.println("You have made it over and see the light of day");
-				looper = false;
 				win();
 				break;
 				
 			case "3":
-				System.out.println("You Win!");
+				looper = false;
+				System.out.println("You Win! (press any key to continue)");
+				userInput=kboard.next();
 				System.out.println("You have gained 128 xp!");
 				userInput=kboard.next();
 				System.out.println("You have gained 36 gold!");
@@ -112,7 +115,6 @@ public class TextBased extends Game {
 				System.out.println("You got one head trauma");
 				userInput=kboard.next();
 				System.out.println("You have fainted");
-				looper = false;
 				break;
 				
 			default:
@@ -123,8 +125,8 @@ public class TextBased extends Game {
 	}
 
 	private void win() {
-		for (int reps=0;reps<=90;reps++) {
-			System.out.println("VICTORY");
+		for (int reps=0;reps<=1000;reps++) {
+			System.out.println("VICTORY!");
 		}
 	}
 
