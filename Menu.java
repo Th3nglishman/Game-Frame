@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 // 	Description: Acts as the main menu for all games
 public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
-
+	//Fields
 	private Image play = new ImageIcon("PLAY.png").getImage();
 	private Image title = new ImageIcon("TitleFrame.png").getImage();
 	private Image greenButton = new ImageIcon("GreenButton.png").getImage();
@@ -31,7 +31,9 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private Rectangle settings;
 	private Rectangle playTextBased;
 	private Rectangle playSettingsBased;
-	private Rectangle returnMenu;
+	private Rectangle Set1;
+	private Rectangle Set2;
+	private Rectangle Set3;
 	private Rectangle exitMenu;
 
 	private Container c;
@@ -47,13 +49,16 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private boolean inSettings=false;
 	private boolean exitButtonDown=false;
 	private boolean exitSettings=false;
-	
+	private boolean set1BD=false;
+	private boolean set2BD=false;
+	private boolean set3BD=false;
+
+	//Methods
 	public Menu () {
 		addMouseListener(this);
 		addMouseMotionListener(this);
-	}
-
-	public void run() {
+	}	
+	public void run() {	//Initiates windows
 		w = new JFrame("Menu");
 		w.setBounds(100, 100, 640, 480);
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,17 +80,23 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		int xUnit=this.getWidth()/16;
 		int yUnit=this.getHeight()/16;
 		
-	if (inSettings) {
+	if (inSettings) { 	//When in Settings, displays setting interface
 		//Settings menu
 		g.drawImage(SettingsFrame,(int)(8*xUnit-323),(int)(7*yUnit-210), this);
 		g.setColor(Color.GRAY);
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
-		returnMenu=new Rectangle((int)(8*xUnit-274),(int)(7*yUnit - 120), 146, 121);
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f)); //Makes the drawn rectangles below transparent..
+		Set1=new Rectangle((int)(8*xUnit-274),(int)(7*yUnit - 90), 146, 121);
+		Set2=new Rectangle((int)(8*xUnit-74),(int)(7*yUnit - 90), 146, 121);
+		Set3=new Rectangle((int)(8*xUnit+126),(int)(7*yUnit - 90), 146, 121);
 		exitMenu=new Rectangle((int)(8*xUnit-274),(int)(7*yUnit + 187), 60, 60);
-	  	g2d.fillRect(returnMenu.x, returnMenu.y, returnMenu.width, returnMenu.height);
+	  	g2d.fillRect(Set1.x, Set1.y, Set1.width, Set1.height);
+	  	g2d.fillRect(Set2.x, Set2.y, Set2.width, Set2.height);
+	  	g2d.fillRect(Set3.x, Set3.y, Set3.width, Set3.height);
 	  	g2d.fillRect(exitMenu.x, exitMenu.y, exitMenu.width, exitMenu.height);
+	  //establish the four buttons in Settings menu
+	  	
 		}
-	else if (!inSettings) {
+	else if (!inSettings) { //When not in Settings, displays main interface
 		g.drawImage(greenButton,(int)(8*xUnit-100),(int)(7*yUnit + 20), this);
 		g.drawImage(redButton,(int)(8*xUnit-100),(int)(7*yUnit + 120), this);
 		
@@ -98,7 +109,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		g.drawImage(gear,(int)(8*xUnit-100),(int)(7*yUnit+120), this);
 		g.drawImage(title,(int)(8*xUnit-323),(int)(7*yUnit-210), this);
 		} 
-		
+	// Displays the button press-down animations for each button
 		if(exitButtonDown) {
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 			g.fillRect((int)(8*xUnit-274),(int)(7*yUnit + 187), 60, 60);
@@ -117,7 +128,6 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		
 		if (releasedSettingsBased) {
 			clickedSettingsBased=false;
-//			g.setColor(Color.GREEN);
 		}
 		else {
 			g.setColor(Color.GRAY);
@@ -129,7 +139,6 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			Coordinates windowSize=gF.getDimensions();
 			Pong game = new Pong(windowSize);
 			gF.run(game);
-//			g.setColor(Color.RED);
 			releasedPong=false;
 			this.setVisible(false);
 		}
@@ -167,11 +176,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			g.fillRect((int)(8*xUnit-274),(int)(7*yUnit + 187), 60, 60);
 			inSettings = false;
 			exitButtonDown = false;
-	  		}
-		
-		releasedSettings=false;
-		releasedSettingsBased=false;
-		
+	  	}
 		if(exitSettings) {
 		inSettings = false;
 		exitSettings = false;
@@ -187,6 +192,26 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		exitSettings = false;
 		repaint();
 		}
+	  	if(set1BD) { 
+	  		g.setColor(Color.GRAY);
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+			g.fillRect((int)(8*xUnit-274),(int)(7*yUnit - 90), 146, 121);
+	  	}
+	  	if(set2BD) {
+	  		g.setColor(Color.GRAY);
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+			g.fillRect((int)(8*xUnit-74),(int)(7*yUnit - 90), 146, 121);
+	  	}
+	  	if(set3BD) {
+	  		g.setColor(Color.GRAY);
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+			g.fillRect((int)(8*xUnit+126),(int)(7*yUnit - 90), 146, 121);
+	  	}
+		
+		releasedSettings=false;
+		releasedSettingsBased=false;
+		
+
 	}
 
 	@Override
@@ -225,7 +250,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 		x = e.getX();
 		y = e.getY();
-	if (!inSettings) {
+	if (!inSettings) {	//Tests for the button press down animation for the main menu
 		if (Constants.TEST) {
 			System.out.println("X = "+ x + "Y = "+ y);
 		}
@@ -244,10 +269,19 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		}
 		repaint();
 	} 
-	else if (inSettings) {
+	else if (inSettings) {		//Tests for the button press down animation for the Settings menu
 		if (exitMenu.contains(x, y)) {
 				exitButtonDown = true;
 		}
+		if (Set1.contains(x, y)) {
+				set1BD = true;
+		}
+		if (Set2.contains(x, y)) {
+			set2BD = true;
+	}
+		if (Set3.contains(x, y)) {
+			set3BD = true;
+	}
 		repaint();
 	}
 
@@ -260,9 +294,9 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
 		x = e.getX();
 		y = e.getY();
-	if (!inSettings) {
+	if (!inSettings) {	//Functions for buttons in the main menu
 		if (Constants.TEST) {
-			System.out.println("X = "+ x + "Y = "+ y);
+			System.out.println("X = "+ x + "Y = "+ y); //tester
 		}
 
 		if (playPong.contains(x, y)) {
@@ -285,11 +319,41 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		}
 		repaint();
 	} 
-	else if (exitButtonDown) {
+	else if (inSettings) { //Functions for buttons in the Settings Menu
 		if (exitMenu.contains(x, y)) {
 				exitSettings = true;
-				repaint();
 		}
-  }
+		if (Set1.contains(x, y)) {	//Runs Pong
+			if(set1BD) {
+				set1BD = false;
+				GameFrame gF = new GameFrame(100,100,640,480);
+				Coordinates windowSize=gF.getDimensions();
+				Pong game = new Pong(windowSize);
+				gF.run(game);
+				this.setVisible(false);
+			}
+		}
+	
+		if (Set2.contains(x, y)) {	//Runs Text-Based Game
+			if(set2BD) {
+				set2BD = false;		
+				this.setVisible(false);
+				TextBased tester=new TextBased();
+				tester.run();
+				}
+			}
+		if (Set3.contains(x, y)) {	//Runs Color Wheel Game
+			if(set3BD) {
+				set3BD = false;
+				GameFrame gF = new GameFrame(100,100,640,480);
+				Coordinates windowSize=gF.getDimensions();
+				ColorWheel game = new ColorWheel(windowSize); //run Color Wheel
+				gF.run(game);
+				this.setVisible(false);
+				}
+			}
+		}
+	}
 }
-}
+	
+
