@@ -1,4 +1,7 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -8,50 +11,45 @@ import java.awt.event.MouseListener;
 import javax.swing.Timer;
 
 public class ColorWheel extends GraphicsGame implements ActionListener, MouseListener {
-
-	public boolean firstTime;
-
-	private Rectangle uL, uR, lL, lR, center, scoreboard;
-
-	int width, height, winner, boxClicked, random;
-
-	private boolean uLWin, uRWin, lLWin, lRWin;
-
-	Color uLc, uRc, lLc, lRc;
-	int count;
-	private String correctBoxClr;
-
-	private boolean triumph;
-
-	Color randomClr;
-
+	private Rectangle uL, uR, lL, lR, center, scoreboard, pointboard;
+	private boolean firstTime;
+	private int width, height;
+	private int time, rand1, rand2, rand3, rand4;
 	private Timer timer;
-	private int MAX_TIME = 15;
-	private int time;
-
-	private boolean clicked;
+	private Timer timer2;
+	private String points, UL, UR, LL, LR;
+	private boolean passed4;
+	private boolean passed1;
+	private boolean passed2;
+	private boolean passed3;
+	private boolean triumph;
+	private boolean different;
+	private int rand5;
 
 	public ColorWheel(Coordinates size) {
 		firstTime = true;
 		width = size.getX();
 		height = size.getY();
-
-		uLWin = false;
-		uRWin = false;
-		lLWin = false;
-		lRWin = false;
-
+		this.setBackground(Color.BLACK);
 		time = 0;
 		timer = new Timer(1000, this);
-		correctBoxClr = "";
+		timer2 = new Timer(3000, this);
+
+		timer.setRepeats(true);
+		timer2.setRepeats(true);
 
 		scoreboard = new Rectangle((width * 4 / 5), 0, width / 5, height);
+		pointboard = new Rectangle(scoreboard.x + scoreboard.width / 5, scoreboard.height / 5, scoreboard.width * 3 / 5,
+				scoreboard.height / 10);
+
 		uL = new Rectangle(0, 0, scoreboard.x / 2, (height * 2 / 5));
 		uR = new Rectangle(uL.width, 0, uL.width, uL.height);
 		lL = new Rectangle(0, height * 3 / 5, uL.width, uL.height);
 		lR = new Rectangle(uL.width, lL.y, uL.width, uL.height);
 		center = new Rectangle(0, uL.height, scoreboard.x, uL.height / 2);
-		addMouseListener(this);
+		addMouseListener((MouseListener) this);
+
+		points = "Pts: ?";
 
 	}
 
@@ -62,163 +60,320 @@ public class ColorWheel extends GraphicsGame implements ActionListener, MouseLis
 		}
 	}
 
-	public void createRect(Graphics g, Color c, Rectangle r) {
-		g.setColor(c);
-		g.fillRect(r.x, r.y, r.width, r.height);
-	}
-
-	public void getRandomColor(Color c) {
-		random = (int) (Math.random() * 7);
-
-		switch (random) {
-		case 0:
-			randomClr = Color.BLUE;
-			break;
-		case 1:
-			randomClr = Color.GREEN;
-			break;
-		case 2:
-			randomClr = Color.CYAN;
-			break;
-		case 3:
-			randomClr = Color.YELLOW;
-			break;
-		case 4:
-			randomClr = Color.RED;
-			break;
-		case 5:
-			randomClr = Color.ORANGE;
-			break;
-		case 6:
-			randomClr = Color.MAGENTA;
-			break;
-		default:
-			randomClr = Color.PINK;
-			break;
-		}
-		count++;
-		if (count == 1)
-			uLc = randomClr;
-		else if (count == 2)
-			uRc = randomClr;
-		else if (count == 3)
-			lLc = randomClr;
-		else if (count == 4)
-			lRc = randomClr;
-
-		checkSame(uLc, uRc, lLc, lRc);
-	}
-
-	public void checkSame(Color a, Color b, Color c, Color d) {
-		if (a == b || a == c || a == d) {
-			count = 0;
-			getRandomColor(a);
-		}
-		if (b == c || b == d) {
-			count = 1;
-			getRandomColor(b);
-		}
-		if (c == d) {
-			count = 2;
-			getRandomColor(c);
-
-		}
-	}
-
-	public void newBoard(Graphics g) {
-		createRect(g, Color.WHITE, scoreboard);
-
-		createRect(g, Color.BLUE, uL);
-
-		createRect(g, Color.RED, uR);
-
-		createRect(g, Color.GREEN, lL);
-
-		createRect(g, Color.YELLOW, lR);
-		createRect(g, Color.BLACK, center);
-	}
-
-	public void chooseCorrectBox() {
-		winner = (int) (Math.random() * 4);
-		switch (winner) {
-		case 0:
-			uLWin = true;
-			break;
-		case 1:
-			uRWin = true;
-			break;
-		case 2:
-			lLWin = true;
-			break;
-		default:
-			lRWin = true;
-			break;
-		}
-		System.out.println("Winner is " + winner);
-	}
-
-	public void checkIfWinner() {
-		if (winner == boxClicked && time < MAX_TIME)
-			triumph = true;
-		else
-			triumph = false;
-	}
-
 	public void paintComponent(Graphics g) {
 
-		createRect(g, Color.WHITE, scoreboard);
+		if (!triumph) {
+			// the setup
+			// testLayout(g);
+			timer.start();
+			if (firstTime) {
+				// set up Rectangles	
+				
+				if (passed1) {
+					g.setColor(Color.WHITE);
+					g.setFont(new Font("TimesRoman", Font.BOLD, 50));
+					g.drawString("3", center.x + center.width / 2, center.y + center.height / 2);
+					passed1 = false;
+					pause(1000);
+				}
+				if (passed2) {
+					g.setColor(Color.BLACK);
+					g.fillRect(0, 0, width, height);
+					g.setColor(Color.WHITE);
+					g.setFont(new Font("TimesRoman", Font.BOLD, 50));
+					g.drawString("2", center.x + center.width / 2, center.y + center.height / 2);
+					passed2 = false;
+					pause(1000);
+				}
+				if (passed3) {
+					g.setColor(Color.BLACK);
+					g.fillRect(0, 0, width, height);
+					g.setColor(Color.WHITE);
+					g.setFont(new Font("TimesRoman", Font.BOLD, 50));
+					g.drawString("1", center.x + center.width / 2, center.y + center.height / 2);
+					passed3 = false;
+					pause(1000);
+				}
+				if (passed4) {
+					g.setColor(Color.BLACK);
+					g.fillRect(0, 0, width, height);
+					g.setColor(Color.WHITE);
+					g.setFont(new Font("TimesRoman", Font.BOLD, 50));
+					g.drawString("GO", center.x + center.width / 2, center.y + center.height / 2);
+					passed4 = false;
+					pause(1000);
+					firstTime = false;
+					timer.setDelay(15000);
+					
 
-		getRandomColor(uLc);
-		getRandomColor(uRc);
-		getRandomColor(lLc);
-		getRandomColor(lRc);
+				}
+			} else {
+				rand1 = (int) (Math.random() * 7 + 1);
+				rand2 = (int) (Math.random() * 7 + 1);
+				rand3 = (int) (Math.random() * 7 + 1);
+				rand4 = (int) (Math.random() * 7 + 1);
 
-		System.out.println(uLc + " " + uRc + " " + lLc + " " + lRc);
-		createRect(g, uLc, uL);
-		createRect(g, uRc, uR);
-		createRect(g, lLc, lL);
-		createRect(g, lRc, lR);
+				// changer
+				while (rand1 == rand2 || rand1 == rand3 || rand1 == rand4) {
+					rand1 = (int) (Math.random() * 8 + 1);
+				}
+				while (rand2 == rand1 || rand2 == rand3 || rand2 == rand4) {
+					rand2 = (int) (Math.random() * 8 + 1);
+				}
+				while (rand3 == rand1 || rand3 == rand2 || rand3 == rand4) {
+					rand3 = (int) (Math.random() * 8 + 1);
+				}
+				// picking a winner
 
-		createRect(g, Color.BLACK, center);
+				rand5 = (int) (Math.random() * 4 + 1);
+			///	System.out.println(rand1 + " "+ rand2 + " "+ rand3 + " "+ rand4);
+			//	System.out.println("Winner is " + rand5);
+				
+				if(rand5 == 1) {
+					decipher(rand1);
+				}
+				if(rand5 == 2) {
+					decipher(rand2);
+				}
+				if(rand5 == 3) {
+					decipher(rand3);
+				}
+				if(rand5 == 4) {
+					decipher(rand4);
+				}
+				
+				
+				
+				g.setColor(Color.WHITE);
+				g.setFont(new Font("TimesRoman", Font.BOLD, 50));
+				
+				if (time > 5) {
 
-		g.setColor(Color.WHITE);
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		g.drawString("RED", (center.width / 2), (center.y + (center.height / 2)));
-		chooseCorrectBox();
-		timer.start();
-		//goes to Action perfomed
+					if (rand5 == 1)
+						g.drawString(decipher(rand1), center.x + center.width / 2, center.y + center.height / 2);
+					if (rand5 == 2)
+						g.drawString(decipher(rand2), center.x + center.width / 2, center.y + center.height / 2);
+					if (rand5 == 3)
+						g.drawString(decipher(rand3), center.x + center.width / 2, center.y + center.height / 2);
+					if (rand5 == 4)
+						g.drawString(decipher(rand4), center.x + center.width / 2, center.y + center.height / 2);
 
+					pause(1000);
+					
+					repaint();
+				}
+			//if(time)
+				g.setColor(Color.BLACK);
+				g.drawRect(scoreboard.x, scoreboard.y, scoreboard.width, scoreboard.height);
+				g.setColor(Color.WHITE);
+				g.fillRoundRect(pointboard.x, pointboard.y, pointboard.width, height/10, 20, 20);
+				setColor(g,decipher(rand1));
+				g.fillRect(uL.x, uL.y, uL.width, uL.height);
+				
+				setColor(g,decipher(rand2));
+				g.fillRect(uR.x, uR.y, uR.width, uR.height);
+				
+				
+				setColor(g,decipher(rand3));
+				g.fillRect(lL.x, lL.y, lL.width, lL.height);
+				
+				
+				setColor(g,decipher(rand4));
+				g.fillRect(lR.x, lR.y, lR.width, lR.height);
+				
+				// now ready to print
+				
+			}
+
+		}
+		else {
+			
+			
+			rand1 = (int) (Math.random() * 7 + 1);
+			rand2 = (int) (Math.random() * 7 + 1);
+			rand3 = (int) (Math.random() * 7 + 1);
+			rand4 = (int) (Math.random() * 7 + 1);
+
+			// changer
+			while (rand1 == rand2 || rand1 == rand3 || rand1 == rand4) {
+				rand1 = (int) (Math.random() * 8 + 1);
+			}
+			while (rand2 == rand1 || rand2 == rand3 || rand2 == rand4) {
+				rand2 = (int) (Math.random() * 8 + 1);
+			}
+			while (rand3 == rand1 || rand3 == rand2 || rand3 == rand4) {
+				rand3 = (int) (Math.random() * 8 + 1);
+			}
+			// picking a winner
+
+			rand5 = (int) (Math.random() * 4 + 1);
+		///	System.out.println(rand1 + " "+ rand2 + " "+ rand3 + " "+ rand4);
+		//	System.out.println("Winner is " + rand5);
+			
+			if(rand5 == 1) {
+				decipher(rand1);
+			}
+			if(rand5 == 2) {
+				decipher(rand2);
+			}
+			if(rand5 == 3) {
+				decipher(rand3);
+			}
+			if(rand5 == 4) {
+				decipher(rand4);
+			}
+			
+			
+			
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("TimesRoman", Font.BOLD, 50));
+			
+			if (time > 5) {
+
+				if (rand5 == 1)
+					g.drawString(decipher(rand1), center.x + center.width / 2, center.y + center.height / 2);
+				if (rand5 == 2)
+					g.drawString(decipher(rand2), center.x + center.width / 2, center.y + center.height / 2);
+				if (rand5 == 3)
+					g.drawString(decipher(rand3), center.x + center.width / 2, center.y + center.height / 2);
+				if (rand5 == 4)
+					g.drawString(decipher(rand4), center.x + center.width / 2, center.y + center.height / 2);
+
+				pause(1000);
+				
+				repaint();
+			}
+		//if(time)
+			g.setColor(Color.BLACK);
+			g.drawRect(scoreboard.x, scoreboard.y, scoreboard.width, scoreboard.height);
+			g.setColor(Color.WHITE);
+			g.fillRoundRect(pointboard.x, pointboard.y, pointboard.width, height/10, 20, 20);
+			setColor(g,decipher(rand1));
+			g.fillRect(uL.x, uL.y, uL.width, uL.height);
+			
+			setColor(g,decipher(rand2));
+			g.fillRect(uR.x, uR.y, uR.width, uR.height);
+			
+			
+			setColor(g,decipher(rand3));
+			g.fillRect(lL.x, lL.y, lL.width, lL.height);
+			
+			
+			setColor(g,decipher(rand4));
+			g.fillRect(lR.x, lR.y, lR.width, lR.height);
+		}
 
 	}
 
+	private String decipher(int x) {
+		// TODO Auto-generated method stub
+		String correct;
+		if(x == 1)
+			correct = "RED";
+		else if(x == 2)
+			correct = "BLUE";
+		else if(x == 3)
+			correct = "GREEN";
+		else if(x == 4)
+			correct = "YELLOW";
+		else if(x == 5)
+			correct = "ORANGE";
+		else if(x == 6)
+			correct = "MAGENTA";
+		else if(x == 7)
+			correct = "PINK";
+		else 
+			correct = "CYAN";
+		return correct;
+	}
+	private void setColor(Graphics g, String s) {
+		if(s== "RED")//1
+			g.setColor(Color.RED);
+		else if (s=="BLUE")//2
+			g.setColor(Color.BLUE);
+		else if (s=="GREEN")//3
+			g.setColor(Color.GREEN);
+		else if (s=="YELLOW")//4
+			g.setColor(Color.YELLOW);
+		else if (s=="ORANGE")//5
+			g.setColor(Color.ORANGE);
+		else if (s=="MAGENTA")//6
+			g.setColor(Color.MAGENTA);
+		else if (s=="PINK")//7
+			g.setColor(Color.PINK);
+		else  //8
+			g.setColor(Color.CYAN);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+
+		time++;
+		System.out.println(time + " " + firstTime);
+
+		if (time == 1) {
+			passed1 = true;
+			repaint();
+		}
+		if (time == 2) {
+			passed2 = true;
+			repaint();
+		}
+		if (time == 3) {
+			passed3 = true;
+			repaint();
+		}
+
+		if (time == 4) {
+			passed4 = true;
+			repaint();
+		}
+
+		repaint();
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int x, y;
+
+		x = e.getX();
+		y = e.getY();
+		// System.out.println("clicked");
+
+		if (uL.contains(x, y)&& time <15) {
+			triumph = true;
+		} else if (uR.contains(x, y) && time < 15) {
+			triumph = true;
+		} else if (lL.contains(x, y) && time < 15) {
+			triumph = true;
+		} else if (lR.contains(x, y) && time < 15) {
+			triumph = true;
+		} else {
+			triumph = false;
+		}
+		
+	}
+
+	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		time++;
-		// System.out.println(time);
-		if (triumph) {
-			timer.stop();
-			count = 0;
-			
-			repaint();
-		}
-
-	}
-
+	@Override
 	public Color getBackground() {
 		// TODO Auto-generated method stub
 		return null;
@@ -227,28 +382,7 @@ public class ColorWheel extends GraphicsGame implements ActionListener, MouseLis
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "ColorWheel";
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		int x, y;
-		x = e.getX();
-		y = e.getY();
-		
-		clicked = true;
-		System.out.println(clicked);
-		if (uL.contains(x, y))
-			boxClicked = 0;
-		else if (uR.contains(x, y))
-			boxClicked = 1;
-		else if (lL.contains(x, y))
-			boxClicked = 2;
-		else if (lR.contains(x, y))
-			boxClicked = 3;
-		checkIfWinner();
-
+		return null;
 	}
 
 	@Override
