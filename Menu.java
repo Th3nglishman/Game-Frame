@@ -16,13 +16,13 @@ import javax.swing.JPanel;
 public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 	//Fields
-	private Image play = new ImageIcon("resources/PLAY.png").getImage();
+	private Image play = new ImageIcon("resources/Play.png").getImage();
 	private Image title = new ImageIcon("resources/TitleFrame.png").getImage();
 	private Image greenButton = new ImageIcon("resources/GreenButton.png").getImage();
 	private Image pressedButton = new ImageIcon("resources/PressedButton.png").getImage();
-	private Image redButton = new ImageIcon("resources/redButton.png").getImage();
+	private Image redButton = new ImageIcon("resources/RedButton.png").getImage();
 	private Image pressedRed = new ImageIcon("resources/RedButtonPressed.png").getImage();
-	private Image gear = new ImageIcon("resources/GEAR.png").getImage();
+	private Image gear = new ImageIcon("resources/Gear.png").getImage();
 	private Image SettingsFrame = new ImageIcon("resources/SettingsFrame.png").getImage();
 
 	
@@ -317,6 +317,9 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	else if (inSettings) { //Functions for buttons in the Settings Menu
 		if (exitMenu.contains(x, y)) {
 				exitSettings = true;
+		}
+		if (clickedTextBased) {
+			
 		}
 		if (Set1.contains(x, y)) {	//Runs Pong
 			if(set1BD) {

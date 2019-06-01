@@ -40,8 +40,8 @@ public class Pong extends GraphicsGame implements ActionListener {
 	
 	//	**Constructors**
 	public Pong(Coordinates size) {
-		Image paddle = ((new ImageIcon("resources/paddle.gif")).getImage());
-		Image ball = ((new ImageIcon("resources/ball.gif")).getImage());
+		Image paddle = ((new ImageIcon("resources/Paddle.png")).getImage());
+		Image ball = ((new ImageIcon("resources/Ball.png")).getImage());
 		left = new Paddle(paddle, 0, 0);
 		right = new Paddle(paddle, 0, 0);
 		pongBall = new Ball(ball, 0, 0);

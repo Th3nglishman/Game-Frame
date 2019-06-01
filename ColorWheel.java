@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.Container;
+//import java.awt.Container;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -28,7 +28,7 @@ public class ColorWheel extends GraphicsGame implements ActionListener, MouseLis
 	private boolean passed2;
 	private boolean passed3;
 	private boolean triumph;
-	private boolean different;
+//	private boolean different;
 	private int rand5;
 	private int timehit;
 	private boolean gameOver;
@@ -566,7 +566,23 @@ g.clearRect(0, lL.y, scoreboard.x, uL.height);
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		if (restart != null) {
+			withinTimeLimit();
+		}
+		if (printTime) {
+			
+		}
+		if (UL != null) {
+			
+		}
+		if (UR != null) {
+			
+		}
+		if (LL != null) {
+			
+		}
+		if (LR != null) {
+			
+		}
 	}
-
 }
