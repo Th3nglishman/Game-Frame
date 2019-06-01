@@ -16,7 +16,7 @@ Description: is the game Pong
 */
 
 public class Pong extends GraphicsGame implements ActionListener {
-	//	**Feilds**
+	//	**Fields**
 	private static final long serialVersionUID = 1L;
 	private Paddle left;
 	private Paddle right;
@@ -40,12 +40,12 @@ public class Pong extends GraphicsGame implements ActionListener {
 	
 	//	**Constructors**
 	public Pong(Coordinates size) {
-		Image paddle = ((new ImageIcon("paddle.gif")).getImage());
-		Image ball = ((new ImageIcon("ball.gif")).getImage());
+		Image paddle = ((new ImageIcon("resources/paddle.gif")).getImage());
+		Image ball = ((new ImageIcon("resources/ball.gif")).getImage());
 		left = new Paddle(paddle, 0, 0);
 		right = new Paddle(paddle, 0, 0);
 		pongBall = new Ball(ball, 0, 0);
-		timer = new Timer(30, this);
+		timer = new Timer(19, this);
 		timer.setRepeats(true);
 		timer.addActionListener(this);
 		repaint();
@@ -130,14 +130,14 @@ public class Pong extends GraphicsGame implements ActionListener {
 		this.checkCollision();
 		if (paddleCollision&&(fixBug<=0||Constants.FEATURE)) {
 			fixBug+=5;
-			if (pongBall.getAngle()<180) {
-				pongBall.setAngle((180-pongBall.getAngle()));
+			if (pongBall.getAngle()<160) {
+				pongBall.setAngle((160-pongBall.getAngle()));
 			}
-			else if (pongBall.getAngle()>180) {
-				pongBall.setAngle(180-(pongBall.getAngle()-180));
+			else if (pongBall.getAngle()>160) {
+				pongBall.setAngle(160-(pongBall.getAngle()-160));
 			}
 			else {
-				pongBall.setAngle((pongBall.getAngle()+180));
+				pongBall.setAngle((pongBall.getAngle()+160));
 			}
 			pongBall.addSpeed();
 		}

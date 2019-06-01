@@ -12,9 +12,5 @@ public class Starter {
 			Menu window = new Menu();
 			window.run();
 		}
-		else {
-			TextBased tester=new TextBased();
-			tester.run();
-		}
 	}
 }

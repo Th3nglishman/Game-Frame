@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.image.*;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +34,7 @@ public class ColorWheel extends GraphicsGame implements ActionListener, MouseLis
 	private boolean gameOver;
 	private Rectangle whiteArea;
 	private boolean roundOver;
+	private Image TitleScreen = new ImageIcon("resources/ColorWheelTitleScreen.png").getImage();
 
 	private int MAX_TIME;
 
@@ -108,18 +109,22 @@ public class ColorWheel extends GraphicsGame implements ActionListener, MouseLis
 	}
 
 	public void countDown(Graphics g) {
-
+		super.paintComponent(g);
+		int xUnit=this.getWidth()/16;
+		int yUnit=this.getHeight()/16;
+		g.drawImage(TitleScreen,(int)(8*xUnit-323),(int)(7*yUnit-210), this);
 		if (passed1) {
+			g.setColor(Color.BLACK);
+			g.fillRect((int)(8*xUnit-323),(int)(7*yUnit-210), width, height);
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 50));
 			g.drawString("3", center.x + center.width / 2, center.y + center.height / 2);
 			passed1 = false;
 			pause(1000);
-
 		}
 		if (passed2) {
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, scoreboard.x, height);
+			g.fillRect((int)(8*xUnit-323),(int)(7*yUnit-210), width, height);			
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 50));
 			g.drawString("2", center.x + center.width / 2, center.y + center.height / 2);
@@ -129,7 +134,7 @@ public class ColorWheel extends GraphicsGame implements ActionListener, MouseLis
 		}
 		if (passed3) {
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, scoreboard.x, height);
+			g.fillRect((int)(8*xUnit-323),(int)(7*yUnit-210), width, height);
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 50));
 			g.drawString("1", center.x + center.width / 2, center.y + center.height / 2);
@@ -139,7 +144,7 @@ public class ColorWheel extends GraphicsGame implements ActionListener, MouseLis
 		}
 		if (passed4) {
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, scoreboard.x, height);
+			g.fillRect((int)(8*xUnit-323),(int)(7*yUnit-210), width, height);
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 50));
 			g.drawString("GO", center.x + center.width / 2, center.y + center.height / 2);

@@ -62,7 +62,7 @@ public class GameFrame extends JFrame {
 		w.addKeyListener(game);
 		Container c = w.getContentPane();
 		c.add(game);
-		w.setResizable(true);
+		w.setResizable(false);
 		w.setVisible(true);
 	}
 

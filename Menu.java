@@ -12,19 +12,18 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-//	From GameBoard.java authored by Mr.Taylor
 // 	Description: Acts as the main menu for all games
 public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 	//Fields
-	private Image play = new ImageIcon("PLAY.png").getImage();
-	private Image title = new ImageIcon("TitleFrame.png").getImage();
-	private Image greenButton = new ImageIcon("GreenButton.png").getImage();
-	private Image pressedButton = new ImageIcon("PressedButton.png").getImage();
-	private Image redButton = new ImageIcon("redButton.png").getImage();
-	private Image pressedRed = new ImageIcon("RedButtonPressed.png").getImage();
-	private Image gear = new ImageIcon("GEAR.png").getImage();
-	private Image SettingsFrame = new ImageIcon("SettingsFrame.png").getImage();
+	private Image play = new ImageIcon("resources/PLAY.png").getImage();
+	private Image title = new ImageIcon("resources/TitleFrame.png").getImage();
+	private Image greenButton = new ImageIcon("resources/GreenButton.png").getImage();
+	private Image pressedButton = new ImageIcon("resources/PressedButton.png").getImage();
+	private Image redButton = new ImageIcon("resources/redButton.png").getImage();
+	private Image pressedRed = new ImageIcon("resources/RedButtonPressed.png").getImage();
+	private Image gear = new ImageIcon("resources/GEAR.png").getImage();
+	private Image SettingsFrame = new ImageIcon("resources/SettingsFrame.png").getImage();
 
 	
 	private Rectangle playPong;
@@ -53,7 +52,6 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	private boolean set2BD=false;
 	private boolean set3BD=false;
 
-	//Methods
 	public Menu () {
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -69,7 +67,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		c = w.getContentPane();
 		c.add(menu);
 
-		w.setResizable(true);
+		w.setResizable(false);
 		w.setVisible(true);
 	}
 
@@ -81,7 +79,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 		int yUnit=this.getHeight()/16;
 		
 	if (inSettings) { 	//When in Settings, displays setting interface
-		//Settings menu
+								//Est. Settings menu interface
 		g.drawImage(SettingsFrame,(int)(8*xUnit-323),(int)(7*yUnit-210), this);
 		g.setColor(Color.GRAY);
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f)); //Makes the drawn rectangles below transparent..
@@ -93,7 +91,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	  	g2d.fillRect(Set2.x, Set2.y, Set2.width, Set2.height);
 	  	g2d.fillRect(Set3.x, Set3.y, Set3.width, Set3.height);
 	  	g2d.fillRect(exitMenu.x, exitMenu.y, exitMenu.width, exitMenu.height);
-	  //establish the four buttons in Settings menu
+	  //establish the four buttons in Settings menu as invisible hitboxes
 	  	
 		}
 	else if (!inSettings) { //When not in Settings, displays main interface
@@ -133,7 +131,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			g.setColor(Color.GRAY);
 		}
 		
-		if (releasedPong) {
+		if (releasedPong) {	//runs PONG when play button is pressed and released
 			clickedPong=false;
 			GameFrame gF = new GameFrame(100,100,640,480);
 			Coordinates windowSize=gF.getDimensions();
@@ -142,14 +140,10 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			releasedPong=false;
 			this.setVisible(false);
 		}
-		else {
-			g.setColor(Color.GREEN);
-		}
 		if (clickedPong) {
 			g.setColor(Color.BLACK);
 			g.drawImage(pressedButton,(int)(8*xUnit-100),(int)(7*yUnit+20), this);
 			g.drawImage(play,(int)(8*xUnit-100),(int)(7*yUnit+20), this);
-
 		}
 			
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f)); //makes the rectangle transparent
@@ -178,16 +172,15 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			exitButtonDown = false;
 	  	}
 		if(exitSettings) {
-		inSettings = false;
-		exitSettings = false;
-		
-		g.drawImage(greenButton,(int)(8*xUnit-100),(int)(7*yUnit + 20), this);
-		g.drawImage(redButton,(int)(8*xUnit-100),(int)(7*yUnit + 120), this);
-		System.out.println("ddd");
-		playPong=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
-		playTextBased=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
-		playSettingsBased=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
-		settings=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 120),200, 70);
+			inSettings = false;
+			exitSettings = false;
+			//draws textures for the framework of the settings tab
+			g.drawImage(greenButton,(int)(8*xUnit-100),(int)(7*yUnit + 20), this);
+			g.drawImage(redButton,(int)(8*xUnit-100),(int)(7*yUnit + 120), this);
+			playPong=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+			playTextBased=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+			playSettingsBased=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 20),200, 70);
+			settings=new Rectangle((int)(8*xUnit-100),(int)(7*yUnit + 120),200, 70);
 		
 		exitSettings = false;
 		repaint();
@@ -196,21 +189,23 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 	  		g.setColor(Color.GRAY);
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 			g.fillRect((int)(8*xUnit-274),(int)(7*yUnit - 90), 146, 121);
+			//gray button overlay feedback when user presses a button (Pong)
 	  	}
 	  	if(set2BD) {
 	  		g.setColor(Color.GRAY);
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 			g.fillRect((int)(8*xUnit-74),(int)(7*yUnit - 90), 146, 121);
+			//gray button overlay feedback when user presses a button (The Museum)
 	  	}
 	  	if(set3BD) {
 	  		g.setColor(Color.GRAY);
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 			g.fillRect((int)(8*xUnit+126),(int)(7*yUnit - 90), 146, 121);
+			//gray button overlay feedback when user presses a button (color wheel)
 	  	}
 		
 		releasedSettings=false;
 		releasedSettingsBased=false;
-		
 
 	}
 
@@ -329,6 +324,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 				GameFrame gF = new GameFrame(100,100,640,480);
 				Coordinates windowSize=gF.getDimensions();
 				Pong game = new Pong(windowSize);
+				gF.setResizable(false);
 				gF.run(game);
 				this.setVisible(false);
 			}
@@ -346,6 +342,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 			if(set3BD) {
 				set3BD = false;
 				GameFrame gF = new GameFrame(100,100,640,480);
+				gF.setResizable(false);
 				Coordinates windowSize=gF.getDimensions();
 				ColorWheel game = new ColorWheel(windowSize); //run Color Wheel
 				gF.run(game);

@@ -5,8 +5,9 @@ Description: Holds constant values to be used across all classes
 */
 
 public class Constants {
-	//	**Feilds**
+	//	**Fields**
 	public static final boolean MAX=false;
 	public static final boolean TEST=false;
 	public static final boolean AI=true;
+	public static final boolean FEATURE = false;
 }

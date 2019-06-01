@@ -6,7 +6,7 @@ Description: Is a text based game
 */
 
 public class TextBased extends Game {
-	//	**Feilds**
+	//	**Fields**
 	private static final long serialVersionUID = 1L;
 	Scanner kboard=new Scanner(System.in);
 	String userInput;
